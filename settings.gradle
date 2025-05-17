@@ -26,12 +26,16 @@ include(
 )
 
 include (
-    'storage',
-    'storage:rdb',
-    'storage:rdb:order-db',
-    'storage:rdb:payment-db',
-    'storage:rdb:inventory-db',
-    'storage:rdb:product-db'
+    'infra',
+
+    'infra:rdb',
+    'infra:rdb:order-db',
+    'infra:rdb:payment-db',
+    'infra:rdb:inventory-db',
+    'infra:rdb:product-db',
+
+    'infra:queue',
+    'infra:queue:kafka',
 )
 
 include(
