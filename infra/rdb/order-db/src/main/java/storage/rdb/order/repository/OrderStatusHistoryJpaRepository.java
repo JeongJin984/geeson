@@ -1,8 +1,7 @@
 package storage.rdb.order.repository;
 
-import app.order.repository.OrderStatusHistoryRepository;
+import app.order.domain.repository.OrderStatusHistoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import storage.rdb.order.repository.adapter.SpringDataOrderStatusHistoryJpaRepository;
 
