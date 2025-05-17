@@ -18,11 +18,11 @@ include(
 )
 
 include(
-    'application',
-    'application:inventory-app',
-    'application:order-app',
-    'application:payment-app',
-    'application:product-app',
+    'domain',
+    'domain:inventory-app',
+    'domain:order-app',
+    'domain:payment-app',
+    'domain:product-app',
 )
 
 include (
@@ -44,6 +44,18 @@ include(
     'module:file',
     'module:enum'
 )
+
+include(
+    'application',
+    'application:app-consumer'
+)
+
+include(
+    'support',
+    'support:messaging',
+    'support:logging'
+)
+
 
 include(
     'commander'
