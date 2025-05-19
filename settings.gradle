@@ -36,6 +36,8 @@ include (
 
     'infra:queue',
     'infra:queue:kafka',
+    'infra:redis',
+    'infra:redis:test',
 )
 
 include(
