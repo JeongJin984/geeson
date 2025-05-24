@@ -1,5 +1,7 @@
 dependencies {
     implementation 'org.redisson:redisson-spring-boot-starter:3.27.2'
+    // 조건만족 대기테스트
+    testImplementation 'org.awaitility:awaitility:4.2.0'
 }
 
 test {
@@ -15,7 +17,7 @@ test {
 sourceSets {
     main {
         resources {
-            // fromYAML을 위해 src path 수정
+            // fromYAML을 위해 src path를 resources로 수정
             srcDir 'resources'
         }
     }
