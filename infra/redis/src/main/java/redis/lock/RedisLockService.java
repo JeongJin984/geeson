@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import java.io.IOException;
@@ -13,28 +11,29 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @Import(RedissonConfig.class)
-@RequiredArgsConstructor
 public class RedisLockService {
-    @Autowired
-    private RedissonClient redissonClient;
+
     @Autowired
     private RedissonConfig config;
+
+    private RedissonClient redissonClient;
 
     public RedisLockService(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
     }
 
-    public void doSomethingWithLock(String lockKey) throws IOException {
+    public boolean doSomethingWithLock(String lockKey, int waitTime, int leaseTime) throws IOException {
         if (redissonClient == null) {
             redissonClient = config.redissonClient();
         }
         RLock lock = redissonClient.getLock("lock:" + lockKey);
         boolean acquired = false;
         try {
-            // 대기 최대 5초, 점유 10초
-            acquired = lock.tryLock(5, 10, TimeUnit.SECONDS);
+            // 대기 최대 3초, 점유 5초
+            acquired = lock.tryLock(waitTime, leaseTime, TimeUnit.SECONDS);
+            System.out.print("Thread Id:" + Thread.currentThread().getId());
             if (acquired) {
-                System.out.println("Lock acquired!");
+                System.out.println(" Lock acquired!");
             } else {
                 System.out.println("Lock not acquired.");
             }
@@ -43,8 +42,10 @@ public class RedisLockService {
         } finally {
             if (acquired) {
                 lock.unlock();
-                System.out.println("Lock released!");
+                System.out.println("Thread Id:" + Thread.currentThread().getId() + 
+                " Lock released! (after unlock status)\n");
             }
         }
+        return acquired;
     }
 }
