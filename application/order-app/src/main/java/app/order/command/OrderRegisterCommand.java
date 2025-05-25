@@ -23,10 +23,4 @@ public record OrderRegisterCommand(
             int quantity,
             int unitPrice
     ) {}
-
-    public record Payment(
-        String paymentMethod,
-        String paymentStatus,
-        String transactionId
-    ) {}
 }
