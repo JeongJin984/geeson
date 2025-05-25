@@ -1,0 +1,8 @@
+dependencies {
+    implementation project(":domain:payment-domain")
+    implementation project(":support:messaging")
+    implementation project(":support:masking")
+
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+}

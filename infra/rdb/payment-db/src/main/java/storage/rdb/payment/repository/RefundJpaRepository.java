@@ -1,6 +1,6 @@
 package storage.rdb.payment.repository;
 
-import app.payment.domain.repository.RefundRepository;
+import domain.payment.domain.repository.RefundRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import storage.rdb.payment.repository.adapter.SpringDataRefundJpaRepository;
