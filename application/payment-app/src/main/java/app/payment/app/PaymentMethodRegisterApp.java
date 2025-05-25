@@ -2,7 +2,7 @@ package app.payment.app;
 
 import app.payment.command.PaymentMethodRegisterCommand;
 import domain.payment.domain.entity.PaymentMethodJpaEntity;
-import domain.payment.domain.repository.PaymentMethodRepository;
+import app.payment.repository.PaymentMethodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import support.masking.CardMasker;

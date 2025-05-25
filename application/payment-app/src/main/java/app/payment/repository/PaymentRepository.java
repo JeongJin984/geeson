@@ -1,4 +1,4 @@
-package domain.payment.domain.repository;
+package app.payment.repository;
 
 import domain.payment.domain.entity.PaymentJpaEntity;
 import org.springframework.stereotype.Repository;

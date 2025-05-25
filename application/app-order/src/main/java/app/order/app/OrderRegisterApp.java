@@ -1,11 +1,9 @@
 package app.order.app;
 
 import app.order.command.OrderRegisterCommand;
-import domain.order.domain.entity.*;
+import app.order.repository.*;
 import domain.order.domain.entity.*;
 import domain.order.domain.message.OrderEventPublisher;
-import domain.order.domain.repository.*;
-import domain.order.domain.repository.*;
 import app.order.exception.CustomerNotFoundException;
 import app.order.exception.ShippingAddressNotFoundException;
 import lombok.RequiredArgsConstructor;

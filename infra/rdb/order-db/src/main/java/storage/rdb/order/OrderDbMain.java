@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
-    scanBasePackages = {"storage.rdb.order", "domain.order"}
+    scanBasePackages = {"storage.rdb.order", "app.order", "domain.order"}
 )
 public class OrderDbMain {
 }

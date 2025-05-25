@@ -1,4 +1,4 @@
-package domain.payment.domain.repository;
+package app.payment.repository;
 
 public interface BillingKeyRepository {
 }

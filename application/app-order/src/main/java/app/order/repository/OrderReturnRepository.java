@@ -1,4 +1,4 @@
-package domain.order.domain.repository;
+package app.order.repository;
 
 public interface OrderReturnRepository {
 }

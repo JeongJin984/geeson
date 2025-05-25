@@ -1,4 +1,4 @@
-package domain.order.domain.repository;
+package app.order.repository;
 
 import domain.order.domain.entity.ShipmentJpaEntity;
 

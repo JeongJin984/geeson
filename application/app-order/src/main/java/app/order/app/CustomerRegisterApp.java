@@ -2,9 +2,8 @@ package app.order.app;
 
 import app.order.command.CustomerRegisterCommand;
 import domain.order.domain.entity.CustomerJpaEntity;
-import domain.order.domain.repository.CustomerRepository;
+import app.order.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
