@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import support.messaging.OrderCreatedEvent;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,6 +40,9 @@ public class KafkaOrderEventConsumer {
                 res.status(),
                 event.paymentMethodId(),
                 new PaymentConfirmCommand.PGConfirmInfo(
+                    "TOSS",
+                    "test_" + UUID.randomUUID(),
+                    "TOSS00001",
                     res.paymentKey(),
                     res.orderId(),
                     res.totalAmount()

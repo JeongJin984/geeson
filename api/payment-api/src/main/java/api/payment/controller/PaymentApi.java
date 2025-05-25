@@ -96,6 +96,9 @@ public class PaymentApi {
                 res.status(),
                 paymentMethodId,
                 new PaymentConfirmCommand.PGConfirmInfo(
+                    "TOSS",
+                    "test_" + UUID.randomUUID(),
+                    "TOSS00001",
                     res.paymentKey(),
                     res.orderId(),
                     res.totalAmount()

@@ -15,6 +15,10 @@ public record PaymentConfirmCommand (
 ) {
 
     public record PGConfirmInfo (
+        String pgName,
+        String apiUrl,
+        String pgCode,
+
         String paymentKey,
         String orderId,
         BigDecimal amount

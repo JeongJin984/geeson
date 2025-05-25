@@ -8,6 +8,6 @@ dependencies {
 
     implementation project(":support:messaging")
 
-    implementation project(":application:app-order")
+    implementation project(":application:order-app")
     implementation project(":domain:order-domain")
 }

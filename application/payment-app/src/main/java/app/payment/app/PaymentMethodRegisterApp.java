@@ -3,6 +3,7 @@ package app.payment.app;
 import app.payment.command.PaymentMethodRegisterCommand;
 import domain.payment.domain.entity.PaymentMethodJpaEntity;
 import app.payment.repository.PaymentMethodRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import support.masking.CardMasker;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PaymentMethodRegisterApp {
     private final PaymentMethodRepository paymentMethodRepository;
 

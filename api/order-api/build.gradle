@@ -1,6 +1,6 @@
 dependencies {
     implementation project(':api:api-commons')
-    implementation project(':application:app-order')
+    implementation project(':application:order-app')
     implementation project(':domain:order-domain')
     implementation project(':infra:rdb:order-db')
     implementation project(':infra:queue:order-kafka')
