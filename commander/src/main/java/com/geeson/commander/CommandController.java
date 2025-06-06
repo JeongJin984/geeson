@@ -33,5 +33,4 @@ public class CommandController {
         log.info("response: {}", entity);
         return entity;
     }
-
 }
