@@ -123,3 +123,15 @@ CREATE TABLE shipping_status (
     tracking_number VARCHAR(64),
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE dead_letter_queue (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    topic VARCHAR(255),
+    `key` VARCHAR(255),
+    payload TEXT,
+    reason VARCHAR(1000),
+    retry_count INT DEFAULT 0,
+    failed_at DATETIME,
+    next_retry_at DATETIME,
+    processed BOOLEAN DEFAULT FALSE
+);
