@@ -7,4 +7,8 @@ spring:
     cache: false
 
 host:
-  order: http://localhost:8082
+  order: http://localhost:9093
+  payment: http://localhost:9094
+
+server:
+  port: 9090
