@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM amazoncorretto:21-alpine
+FROM amazoncorretto:21
 
 # 앱 작업 디렉토리 설정
 WORKDIR /app

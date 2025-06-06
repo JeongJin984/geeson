@@ -49,12 +49,14 @@
 <body>
 <label for="order-host"></label><input id="order-host" hidden="hidden" th:value="${orderHost}">
 <div id="chat-box">
-    > Welcome to the CMD Chat
+    > Welcome to the CMD Chat Version 0.0.1
 </div>
 
 <div id="input-container">
     <div id="prompt">&gt;</div>
-    <input type="text" id="cmd-input" autocomplete="off" />
+    <label for="cmd-input">
+        <input type="text" id="cmd-input" autocomplete="off" />
+    </label>
 </div>
 
 <script>
@@ -108,30 +110,24 @@
             console.log("full path: " + host + url)
             console.log("body: " + body)
 
-            if(method === 'POST') {
-                fetch(host + url, {
+            $.ajax({
+                url: '/request',
+                type: 'POST',
+                dataType: 'json',
+                contentType: "application/json",
+                data: JSON.stringify({
                     method: method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body)
-                })
-                    .then(res => res.json())
-                    .then(data => appendLine(data || '(no response)'))
-                    .catch(err => appendLine('Error: ' + err.message));
-            } else if(method === 'GET') {
-                $.ajax({
                     url: host + url,
-                    type: method,
-                    dataType: 'json',
-                    success: (data) => {
-                        appendLine(JSON.stringify(data) || '(no response)')
-                    },
-                    error: (xhr, status, error) => {
-                        appendLine('Error: ' + err)
-                    }
-                })
-            }
-
-
+                    headers : [],
+                    body: body,
+                }),
+                success: (data) => {
+                    appendLine(JSON.stringify(data) || '(no response)')
+                },
+                error: (xhr, status, error) => {
+                    appendLine('Error: ' + error)
+                }
+            })
         }
     });
 
