@@ -45,6 +45,16 @@ services:
       timeout: 10s
       retries: 5
       start_period: 15s
+  redis:
+    container_name: redis
+    image: redis:7
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - redis-net
+    restart: unless-stopped
   geeson-commander:
     image: jeongjin984/commander:0.0.1
     ports:
@@ -67,6 +77,7 @@ services:
       - api-net
       - kafka-net
       - mysql-net
+      - redis-net
     volumes:
       - ./logs:/logs
   payment-api:
@@ -80,6 +91,7 @@ services:
       - api-net
       - kafka-net
       - mysql-net
+      - redis-net
     volumes:
       - ./logs:/logs
 volumes:
@@ -87,10 +99,14 @@ volumes:
     driver: local
   mysql_data:
     driver: local
+  redis_data:
+    driver: local
 networks:
   kafka-net:
     driver: bridge
   api-net:
     driver: bridge
   mysql-net:
+    driver: bridge
+  redis-net:
     driver: bridge
