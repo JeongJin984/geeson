@@ -1,4 +1,5 @@
 CREATE TABLE payment_methods (
+<<<<<<< HEAD
                                         method_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                         customer_id BIGINT,
                                         type VARCHAR(50) NOT NULL, -- CARD, ACCOUNT, MOBILE, PAYPAL 등
@@ -8,6 +9,17 @@ CREATE TABLE payment_methods (
                                         expiration_date DATE,
                                         billing_key VARCHAR(255), -- 정기결제용 토큰
                                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+=======
+                                 method_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                                 customer_id BIGINT,
+                                 type VARCHAR(50) NOT NULL, -- CARD, ACCOUNT, MOBILE, PAYPAL 등
+                                 card_code VARCHAR(20) NOT NULL,
+                                 provider VARCHAR(100), -- 예: KCP, NICE, Toss
+                                 masked_number VARCHAR(50),
+                                 expiration_date DATE,
+                                 billing_key VARCHAR(255), -- 정기결제용 토큰
+                                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+>>>>>>> 077687051143041e1e17e5c6f81ba1e62a4884a7
 );
 
 CREATE TABLE payments (

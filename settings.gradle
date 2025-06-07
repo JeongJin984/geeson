@@ -42,6 +42,7 @@ include (
     'infra:queue:product-kafka',
     'infra:queue:kafka',
     'infra:redis',
+    'infra:uuid',
 )
 
 include(
