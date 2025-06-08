@@ -11,7 +11,7 @@ import domain.order.domain.entity.DeadLetterMessageJpaEntity;
 @Service
 @RequiredArgsConstructor
 public class DeadLetterService {
-    private final DeadLetterRepository deadLettterRepository;
+    private final DeadLetterRepository deadLetterRepository;
 
     public void saveDeadMessage(String topic, String key, String payload, String reason) {
         DeadLetterMessageJpaEntity entity = new DeadLetterMessageJpaEntity();
@@ -23,6 +23,6 @@ public class DeadLetterService {
         entity.setFailedAt(LocalDateTime.now());
         entity.setNextRetryAt(LocalDateTime.now().plusMinutes(10));
         entity.setProcessed(false);
-        deadLettterRepository.save(entity);
+        deadLetterRepository.save(entity);
     }
 }
