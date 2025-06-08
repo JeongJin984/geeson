@@ -1,4 +1,3 @@
-version: '3.8'
 # IMPORTANT: To preserve MySQL data, always use 'docker compose down' without the '-v' flag
 # Using 'docker compose down -v' will remove volumes and cause data loss
 
@@ -55,6 +54,11 @@ services:
     networks:
       - redis-net
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
   geeson-commander:
     image: jeongjin984/commander:0.0.1
     ports:
@@ -73,6 +77,8 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - api-net
       - kafka-net
@@ -86,6 +92,8 @@ services:
       mysql:
         condition: service_healthy
       kafka:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     networks:
       - api-net
