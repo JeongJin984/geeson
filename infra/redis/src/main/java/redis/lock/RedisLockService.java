@@ -43,6 +43,7 @@ public class RedisLockService {
            Thread.currentThread().interrupt();
            log.error("Thread interrupted while trying to acquire lock", e);
        } finally {
+            // 현재 쓰레드가 락 보유중일 때만 실행
            if (acquired && lock.isHeldByCurrentThread()) {
                lock.unlock();
                log.info("Thread Id: {} Lock released! (after unlock status)", 
