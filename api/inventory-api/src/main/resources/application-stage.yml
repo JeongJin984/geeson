@@ -7,7 +7,7 @@ spring:
     bootstrap-servers: kafka:29092
 
 api:
-  version: '2025-06-15'
+  version: "2025-06-15"
 
 uuid:
   node-id: ${NODE_ID:0}
