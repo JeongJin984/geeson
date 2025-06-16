@@ -27,4 +27,8 @@ public class WarehouseService {
     public void deleteById(Long id) {
         warehouseRepo.deleteById(id);
     }
+
+    public boolean existsById(Long id) {
+        return warehouseRepo.existsById(id);
+    }
 }
