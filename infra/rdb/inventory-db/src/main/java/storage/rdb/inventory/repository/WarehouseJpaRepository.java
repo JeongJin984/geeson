@@ -32,4 +32,13 @@ public class WarehouseJpaRepository implements WarehouseRepository {
         jpa.deleteById(id);
     }
 
+    @Override
+    public void deleteAll() {
+        jpa.deleteAll();
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return jpa.existsById(id);
+    }
 }

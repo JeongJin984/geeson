@@ -10,4 +10,6 @@ public interface WarehouseRepository {
     List<WarehouseJpaEntity> saveAll(List<WarehouseJpaEntity> entities);
     List<WarehouseJpaEntity> findAll();
     void deleteById(Long id);
+    void deleteAll();
+    boolean existsById(Long id);
 }

@@ -28,14 +28,11 @@ public class WarehouseJpaEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    public void prePersist() {
+    public WarehouseJpaEntity(String name, String location, Integer capacity) {
+        this.name = name;
+        this.location = location;
+        this.capacity = capacity;
         this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 
