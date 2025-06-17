@@ -10,10 +10,6 @@ public record RegisterWarehousesReq(
     @Positive Integer capacity
 ) {
     public WarehouseJpaEntity toOneEntity() {
-        return WarehouseJpaEntity.builder()
-            .name(name)
-            .location(location)
-            .capacity(capacity)
-            .build();
+        return WarehouseJpaEntity.create(name, location, capacity);
     }
 }

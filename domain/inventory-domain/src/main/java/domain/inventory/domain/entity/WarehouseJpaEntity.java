@@ -10,11 +10,9 @@ import lombok.AccessLevel;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA를 위한 protected 기본 생성자
-@AllArgsConstructor
-@Builder
 @Entity
 @Table(name = "warehouses")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WarehouseJpaEntity {
 
     @Id
@@ -28,7 +26,7 @@ public class WarehouseJpaEntity {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public WarehouseJpaEntity(String name, String location, Integer capacity) {
+    private WarehouseJpaEntity(String name, String location, Integer capacity) {
         this.name = name;
         this.location = location;
         this.capacity = capacity;
@@ -36,10 +34,14 @@ public class WarehouseJpaEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
-    // 값 설정용 명시적 메서드 (setter 대신)
+    public static WarehouseJpaEntity create(String name, String location, Integer capacity) {
+        return new WarehouseJpaEntity(name, location, capacity);
+    }
+
     public void updateInfo(String name, String location, Integer capacity) {
         this.name = name;
         this.location = location;
         this.capacity = capacity;
+        this.updatedAt = LocalDateTime.now();
     }
 }
