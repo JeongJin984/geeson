@@ -1,12 +1,15 @@
-package support.messaging;
+package support.messaging.event;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record OrderCreatedEvent (
-    Long orderId,
-    Long customerId,
-    Long paymentMethodId,
+    String orderId,
+    String customerId,
+    String paymentMethodId,
     String transactionId,
     BigDecimal totalPrice,
     String currency,
@@ -15,6 +18,6 @@ public record OrderCreatedEvent (
     public record OrderItem(
         String productId,
         int quantity,
-        int unitPrice
+        BigDecimal unitPrice
     ) {}
 }
