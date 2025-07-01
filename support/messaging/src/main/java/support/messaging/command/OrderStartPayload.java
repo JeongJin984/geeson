@@ -1,4 +1,4 @@
-package support.messaging.event;
+package support.messaging.command;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record OrderCreatedEvent (
+public record OrderStartPayload(
     String orderId,
     String customerId,
     String paymentMethodId,
