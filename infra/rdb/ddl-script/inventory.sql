@@ -1,3 +1,7 @@
+CREATE DATABASE inventory_db;
+
+USE inventory_db;
+
 CREATE TABLE products (
     product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,

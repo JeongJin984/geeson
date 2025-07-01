@@ -1,3 +1,7 @@
+CREATE DATABASE order_db;
+
+USE order_db;
+
 CREATE TABLE customers (
     customer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
