@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import support.messaging.command.PaymentRequestPayload;
 import support.messaging.event.PaymentFailedEvent;
 import support.messaging.event.PaymentSucceedEvent;
-import support.messaging.saga.BaseEvent;
 import support.uuid.UuidGenerator;
 
 import java.io.IOException;
@@ -88,6 +87,6 @@ public class KafkaOrderEventConsumer {
     public void paymentInventoryCompensate(String paymentId) throws JsonProcessingException {
         log.info("paymentId compensated: {}", paymentId);
 
-        kafkaTemplate.send("")
+        kafkaTemplate.send("", "");
     }
 }
