@@ -14,3 +14,21 @@ CREATE TABLE users (
                        created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
                        updated_at      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+INSERT INTO users (
+    username,
+    email,
+    password_hash,
+    status,
+    email_verified,
+    phone_number,
+    mfa_enabled
+) VALUES (
+    'test',
+    'test@example.com',
+    'test', -- bcrypt hash for 'test'
+    'ACTIVE',
+    FALSE,
+    '010-1234-5678',
+    FALSE
+);

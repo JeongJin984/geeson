@@ -108,3 +108,27 @@ CREATE TABLE inventory_adjustments (
     adjusted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (inventory_id) REFERENCES inventory(inventory_id)
 );
+
+INSERT INTO inventory_db.inventory (
+    inventory_id,
+    product_id,
+    warehouse_id,
+    total_quantity,
+    reserved_quantity,
+    available_quantity,
+    reorder_level,
+    reorder_quantity,
+    created_at,
+    updated_at
+) VALUES (
+    1,
+    1,
+    1,
+    100,
+    2,
+    98,
+    0,
+    0,
+    '2025-07-02 11:28:31',
+    '2025-07-02 11:28:31'
+);
