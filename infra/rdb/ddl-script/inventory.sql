@@ -60,13 +60,16 @@ CREATE TABLE inventory_reservations (
 );
 
 CREATE TABLE stock_movements (
-    movement_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    inventory_id BIGINT NOT NULL,
-    movement_type ENUM('IN', 'OUT', 'TRANSFER') NOT NULL,
-    quantity INT NOT NULL,
-    movement_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    description TEXT,
-    FOREIGN KEY (inventory_id) REFERENCES inventory(inventory_id)
+  movement_id BIGINT NOT NULL AUTO_INCREMENT,
+  inventory_id BIGINT NOT NULL,
+  movement_type ENUM('IN','OUT','TRANSFER') NOT NULL,
+  quantity INT NOT NULL,
+  movement_date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  description TEXT,
+  reference_id VARCHAR(128) NOT NULL,
+  PRIMARY KEY (movement_id),
+  UNIQUE KEY uq_reference_id (reference_id),
+  KEY inventory_id (inventory_id)
 );
 
 CREATE TABLE suppliers (
