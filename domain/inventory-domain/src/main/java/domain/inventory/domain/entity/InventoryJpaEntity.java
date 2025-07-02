@@ -39,8 +39,7 @@ public class InventoryJpaEntity {
             int totalQuantity,
             int reservedQuantity,
             int reorderLevel,
-            int reorderQuantity
-    ) {
+            int reorderQuantity) {
         LocalDateTime now = LocalDateTime.now();
         InventoryJpaEntity entity = new InventoryJpaEntity();
         entity.productId = productId;
@@ -61,6 +60,7 @@ public class InventoryJpaEntity {
 
     /**
      * 예약했던 수량을 취소하거나 해제함
+     * 
      * @param quantity
      */
     public void release(int quantity) {
@@ -73,6 +73,7 @@ public class InventoryJpaEntity {
 
     /**
      * 새로운 물량 입고
+     * 
      * @param quantity
      */
     public void restock(int quantity) {
@@ -86,4 +87,11 @@ public class InventoryJpaEntity {
     private void touch() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    public static InventoryJpaEntity withId(Long id) {
+        InventoryJpaEntity entity = new InventoryJpaEntity();
+        entity.inventoryId = id;
+        return entity;
+    }
+
 }

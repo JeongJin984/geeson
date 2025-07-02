@@ -2,6 +2,7 @@ dependencies {
     implementation project(":domain:inventory-domain")
     implementation project(":support:messaging")
     implementation project(":support:uuid")
+    implementation project(":module:enum")
 
     annotationProcessor 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok'
