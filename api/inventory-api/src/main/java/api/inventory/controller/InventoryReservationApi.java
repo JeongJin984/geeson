@@ -27,10 +27,9 @@ public class InventoryReservationApi {
     @PostMapping
     public ResponseEntity<InventoryReservationRes> reserve(@RequestBody @Valid InventoryReservationReq req) {
         InventoryReservationJpaEntity entity = reservationApp.reserveInventory(new InventoryReservationCommand(
-            req.inventoryId(),
+            req.productId(),
             req.orderId(),
-            req.reservedQuantity(),
-            req.expiresAt()
+            req.reservedQuantity()
         ));
 
         InventoryReservationRes res = new InventoryReservationRes(
@@ -40,7 +39,7 @@ public class InventoryReservationApi {
             entity.getReservedQuantity(),
             entity.getReservedAt(),
             entity.getExpiresAt(),
-            entity.getStatus()
+            entity.getStatus().name()
         );
 
         return ResponseEntity.status(201).body(res);
@@ -59,7 +58,7 @@ public class InventoryReservationApi {
             entity.getReservedQuantity(),
             entity.getReservedAt(),
             entity.getExpiresAt(),
-            entity.getStatus()
+            entity.getStatus().name()
         ));
     }
 
@@ -76,7 +75,7 @@ public class InventoryReservationApi {
                 entity.getReservedQuantity(),
                 entity.getReservedAt(),
                 entity.getExpiresAt(),
-                entity.getStatus()
+                entity.getStatus().name()
             )).toList();
 
         return ResponseEntity.ok(result);

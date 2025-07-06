@@ -6,8 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record InventoryReservationCommand(
-    @NotNull Long inventoryId,
+    @NotNull Long productId,
     @NotNull Long orderId,
-    @Min(1) int reservedQuantity,
-    LocalDateTime expiresAt
+    @Min(1) int reservedQuantity
 ) {}

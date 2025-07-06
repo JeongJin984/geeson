@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.cglib.core.Local;
 
 @Entity
 @Table(name = "inventory_reservations")
@@ -25,43 +26,43 @@ public class InventoryReservationJpaEntity {
     @JoinColumn(name = "inventory_id")
     private InventoryJpaEntity inventory;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
+    @Column(name = "order_id")
     private Long orderId;
+
+    @Column(name = "reserved_quantity")
     private Integer reservedQuantity;
+
+    @Column(name = "reserved_at")
     private LocalDateTime reservedAt;
+
+    @Column(name = "expires_at")
     private LocalDateTime expiresAt;
-    private String status;
+
+    @Column(name = "status", columnDefinition = "varchar(50)")
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status;
 
     /**
      * 정적 팩토리 메서드
      * 
-     * @param inventoryId
+     * @param inventory
      * @param orderId
      * @param reservedQuantity
      * @param expiresAt
      * @return
      */
     public static InventoryReservationJpaEntity create(
-            Long inventoryId,
+            InventoryJpaEntity inventory,
             Long orderId,
             int reservedQuantity,
-            java.sql.Timestamp expiresAt) {
+            LocalDateTime expiresAt) {
         return InventoryReservationJpaEntity.builder()
-                .inventory(InventoryJpaEntity.builder().inventoryId(inventoryId).build())
+                .inventory(inventory)
                 .orderId(orderId)
                 .reservedQuantity(reservedQuantity)
                 .reservedAt(LocalDateTime.now())
-                .expiresAt(expiresAt != null ? expiresAt.toLocalDateTime() : null)
-                .status(ReservationStatus.RESERVED.name())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
+                .expiresAt(expiresAt)
+                .status(ReservationStatus.RESERVED)
                 .build();
     }
 
@@ -71,7 +72,6 @@ public class InventoryReservationJpaEntity {
      * @param status
      */
     public void changeStatus(ReservationStatus status) {
-        this.status = status.name();
-        this.updatedAt = LocalDateTime.now();
+        this.status = status;
     }
 }
