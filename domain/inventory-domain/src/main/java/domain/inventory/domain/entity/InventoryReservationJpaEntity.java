@@ -19,7 +19,6 @@ import org.springframework.cglib.core.Local;
 public class InventoryReservationJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reservationId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -52,18 +51,21 @@ public class InventoryReservationJpaEntity {
      * @return
      */
     public static InventoryReservationJpaEntity create(
-            InventoryJpaEntity inventory,
-            Long orderId,
-            int reservedQuantity,
-            LocalDateTime expiresAt) {
+        Long reservationId,
+        InventoryJpaEntity inventory,
+        Long orderId,
+        int reservedQuantity,
+        LocalDateTime expiresAt
+    ) {
         return InventoryReservationJpaEntity.builder()
-                .inventory(inventory)
-                .orderId(orderId)
-                .reservedQuantity(reservedQuantity)
-                .reservedAt(LocalDateTime.now())
-                .expiresAt(expiresAt)
-                .status(ReservationStatus.RESERVED)
-                .build();
+            .reservationId(reservationId)
+            .inventory(inventory)
+            .orderId(orderId)
+            .reservedQuantity(reservedQuantity)
+            .reservedAt(LocalDateTime.now())
+            .expiresAt(expiresAt)
+            .status(ReservationStatus.RESERVED)
+            .build();
     }
 
     /**

@@ -44,6 +44,7 @@ public class InventoryReservationApp {
         selectedInventory.reserve(command.reservedQuantity());
 
         return inventoryReservationRepository.save(InventoryReservationJpaEntity.create(
+            command.reservationId(),
             selectedInventory,
             command.orderId(),
             command.reservedQuantity(),

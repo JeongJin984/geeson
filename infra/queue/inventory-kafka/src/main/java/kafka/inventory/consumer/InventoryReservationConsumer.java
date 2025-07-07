@@ -31,6 +31,7 @@ public class InventoryReservationConsumer {
 
         try {
             InventoryReservationJpaEntity reserved = inventoryReservationApp.reserveInventory(new InventoryReservationCommand(
+                Long.valueOf(payload.getReservationId()),
                 Long.parseLong(payload.getProductId()),
                 Long.parseLong(payload.getOrderId()),
                 payload.getQuantity()

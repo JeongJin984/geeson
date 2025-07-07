@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import support.uuid.UuidGenerator;
+
 import java.util.List;
 
 @RestController
@@ -20,6 +22,7 @@ import java.util.List;
 public class InventoryReservationApi {
 
     private final InventoryReservationApp reservationApp;
+    private final UuidGenerator uuidGenerator;
 
     /**
      * 재고 예약 생성
@@ -27,6 +30,7 @@ public class InventoryReservationApi {
     @PostMapping
     public ResponseEntity<InventoryReservationRes> reserve(@RequestBody @Valid InventoryReservationReq req) {
         InventoryReservationJpaEntity entity = reservationApp.reserveInventory(new InventoryReservationCommand(
+            uuidGenerator.nextId(),
             req.productId(),
             req.orderId(),
             req.reservedQuantity()
