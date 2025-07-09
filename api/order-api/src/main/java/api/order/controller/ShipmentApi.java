@@ -49,6 +49,7 @@ public class ShipmentApi {
      */
     @PostMapping
     public ResponseEntity<ShipmentRes> create(@RequestBody @Valid ShipmentReq req) {
+        // @todo Kafka 이벤트 발행
         ShipmentJpaEntity resulted = shipmentApp.createShipment(
             new ShipmentCommand(req.orderId(), req.carrier(), req.trackingNumber()));
         return ResponseEntity.status(201).body(ShipmentRes.from(resulted));
@@ -83,6 +84,7 @@ public class ShipmentApi {
      */
     @PatchMapping("/{id}/status")
     public ResponseEntity<Void> updateStatus(@PathVariable Long id, @RequestBody UpdateShipmentStatusReq req) {
+        // @todo Kafka 이벤트 발행
         shipmentApp.updateStatus(id, req.status());
         return ResponseEntity.noContent().build();
     }
