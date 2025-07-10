@@ -23,9 +23,8 @@ import java.util.Optional;
 @Transactional
 public class InventoryReservationApp {
 
-    private final InventoryReservationRepository reservationRepository;
     private final InventoryRepository inventoryRepository;
-    private final InventoryReservationRepository inventoryReservationRepository;
+    private final InventoryReservationRepository reservationRepository;
 
     /**
      * 재고 예약 생성
@@ -43,7 +42,7 @@ public class InventoryReservationApp {
 
         selectedInventory.reserve(command.reservedQuantity());
 
-        return inventoryReservationRepository.save(InventoryReservationJpaEntity.create(
+        return reservationRepository.save(InventoryReservationJpaEntity.create(
             command.reservationId(),
             selectedInventory,
             command.orderId(),
