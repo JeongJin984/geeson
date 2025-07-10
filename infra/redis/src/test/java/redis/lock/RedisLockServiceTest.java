@@ -44,6 +44,7 @@ public class RedisLockServiceTest {
 
     @AfterEach
     void shutdown() {
+        // memory leak 방지용
         if (executor != null)
             executor.shutdownNow();
     }
