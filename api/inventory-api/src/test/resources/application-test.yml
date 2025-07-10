@@ -13,14 +13,6 @@ spring:
   h2:
     console:
       enabled: true
-  kafka:
-    bootstrap-servers: localhost:9092
-    consumer:
-      auto-offset-reset: earliest
-    listener:
-      missing-topics-fatal: false  # 테스트 비활성화
-    template:
-      default-topic: dummy
 
 uuid:
   node-id: ${NODE_ID:1}
