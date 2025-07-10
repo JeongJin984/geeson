@@ -1,5 +1,8 @@
 package api.inventory.request;
 
-public record StockMovementHistoryReq() {
-    
-}
+import module.enums.MovementType;
+
+public record StockMovementHistoryReq(
+    Long inventoryId,
+    MovementType movementType
+) {}

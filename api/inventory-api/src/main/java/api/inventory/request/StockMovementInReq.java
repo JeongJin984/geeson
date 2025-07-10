@@ -21,7 +21,9 @@ public record StockMovementInReq(
     String description,
 
     @NotBlank(message = "Idempotency key must not be blank")
-    String idempotencyKey
+    String idempotencyKey,
+
+    String referenceId
 
 ) {
     public StockMovementJpaEntity toEntity() {
@@ -29,7 +31,8 @@ public record StockMovementInReq(
             inventoryId,
             movementType,
             quantity,
-            description
+            description,
+            referenceId
         );
     }
 }

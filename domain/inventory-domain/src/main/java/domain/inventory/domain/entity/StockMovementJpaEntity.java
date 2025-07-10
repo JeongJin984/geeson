@@ -1,10 +1,11 @@
 package domain.inventory.domain.entity;
 
-import module.enums.MovementType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import module.enums.MovementType;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -34,22 +35,26 @@ public class StockMovementJpaEntity {
     @Column(name = "movement_date", nullable = false)
     private LocalDateTime movementDate;
 
+    @Column(name = "reference_id")
+    private String referenceId;
+
     @PrePersist
     protected void onCreate() {
         this.movementDate = LocalDateTime.now();
     }
 
-    // 정적 팩토리 메서드
     public static StockMovementJpaEntity create(
             Long inventoryId,
             MovementType movementType,
             Integer quantity,
-            String description) {
+            String description,
+            String referenceId) {
         StockMovementJpaEntity entity = new StockMovementJpaEntity();
-        entity.inventory = InventoryJpaEntity.withId(inventoryId); // FK 연관 객체 세팅
+        entity.inventory = InventoryJpaEntity.withId(inventoryId);
         entity.movementType = movementType;
         entity.quantity = quantity;
         entity.description = description;
+        entity.referenceId = referenceId;
         return entity;
     }
 

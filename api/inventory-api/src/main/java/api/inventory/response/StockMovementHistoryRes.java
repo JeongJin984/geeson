@@ -1,16 +1,32 @@
 package api.inventory.response;
 
-public record StockMovementHistoryRes(
-    String movementType,
-    Integer quantity,
-    String description
-) {
-public static StockMovementHistoryRes from(String typeName, Integer quantity, String description) {
-    return new StockMovementHistoryRes(
-        typeName,
-        quantity,
-        description
-    );
-}
+import domain.inventory.domain.entity.StockMovementJpaEntity;
+import lombok.Builder;
+import lombok.Getter;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Builder
+public class StockMovementHistoryRes {
+
+    private Long movementId;
+    private Long inventoryId;
+    private String movementType;
+    private Integer quantity;
+    private LocalDateTime movementDate;
+    private String description;
+    private String referenceId;
+
+    public static StockMovementHistoryRes from(StockMovementJpaEntity entity) {
+        return StockMovementHistoryRes.builder()
+                .movementId(entity.getMovementId())
+                .inventoryId(entity.getInventory().getInventoryId())
+                .movementType(entity.getMovementType().name())
+                .quantity(entity.getQuantity())
+                .movementDate(entity.getMovementDate())
+                .description(entity.getDescription())
+                .referenceId(entity.getReferenceId())
+                .build();
+    }
 }
