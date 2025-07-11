@@ -9,12 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.HashMap;
 
 @Profile("!test") // 테스트 미실행 마크 (임시 추가)
 @Configuration
 public class KafkaConfig {
+    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Bean
