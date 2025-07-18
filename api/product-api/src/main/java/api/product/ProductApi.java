@@ -2,15 +2,14 @@ package api.product;
 
 import api.product.dto.ProductRegisterRequest;
 import api.product.dto.ProductRegisterResponse;
+import api.product.dto.ProductSelectResponse;
 import app.product.app.ProductRegisterApp;
+import app.product.app.ProductSelectApp;
 import app.product.command.ProductRegisterCommand;
 import domain.product.domain.entity.ProductJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductApi {
 
     private final ProductRegisterApp productRegisterApp;
+    private final ProductSelectApp productSelectApp;
 
     @PostMapping
     public ResponseEntity<ProductRegisterResponse> registerProduct(@RequestBody ProductRegisterRequest request) {
@@ -42,6 +42,30 @@ public class ProductApi {
             product.getBrand().getBrandId().toString(),
             product.getIsActive(),
             "product registered successfully"
+        ));
+    }
+    
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductSelectResponse> selectProduct(@PathVariable Long productId) {
+        // Select product
+        ProductSelectApp.ProductWithPrice productWithPrice = productSelectApp.selectProduct(productId);
+        
+        // Extract product and price information
+        ProductJpaEntity product = productWithPrice.product();
+        var price = productWithPrice.price();
+        
+        // Return response
+        return ResponseEntity.ok(new ProductSelectResponse(
+            product.getProductId(),
+            product.getName(),
+            product.getSku(),
+            product.getBrand().getBrandId().toString(),
+            product.getBrand().getName(),
+            product.getIsActive(),
+            price.getPrice(),
+            price.getDiscountPrice(),
+            price.getCurrency(),
+            "product retrieved successfully"
         ));
     }
 }

@@ -8,4 +8,5 @@ import java.util.Optional;
 @Repository
 public interface BrandRepository {
     Optional<BrandJpaEntity> findById(Long id);
+    BrandJpaEntity save(BrandJpaEntity brand);
 }
