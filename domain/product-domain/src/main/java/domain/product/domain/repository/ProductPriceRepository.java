@@ -1,7 +1,11 @@
 package domain.product.domain.repository;
 
 import domain.product.domain.entity.ProductPriceJpaEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductPriceRepository extends JpaRepository<ProductPriceJpaEntity, Long> {
+import java.util.Optional;
+
+@Repository
+public interface ProductPriceRepository {
+    Optional<ProductPriceJpaEntity> findById(Long id);
 }
