@@ -1,14 +1,18 @@
 package api.inventory.controller;
 
 import app.inventory.app.InventoryAddApp;
+import app.inventory.app.InventorySelectApp;
 import api.inventory.request.AddInventoryReq;
+import api.inventory.request.SelectInventoryReq;
 import api.inventory.response.AddInventoryRes;
+import api.inventory.response.SelectInventoryRes;
 import domain.inventory.domain.entity.InventoryJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/inventories")
@@ -16,6 +20,7 @@ import jakarta.validation.Valid;
 public class InventoryApi {
 
     private final InventoryAddApp inventoryAddApp;
+    private final InventorySelectApp inventorySelectApp;
 
     /**
      * Add new inventory for a product in a warehouse
@@ -32,5 +37,22 @@ public class InventoryApi {
 
         AddInventoryRes res = AddInventoryRes.from(entity);
         return ResponseEntity.status(201).body(res);
+    }
+    
+    /**
+     * Find available inventory for a product with sufficient quantity
+     */
+    @GetMapping("/select")
+    public ResponseEntity<SelectInventoryRes> selectInventory(
+            @RequestParam("productId") @Valid Long productId,
+            @RequestParam("quantity") @Valid Integer quantity) {
+        Optional<InventoryJpaEntity> optionalEntity = inventorySelectApp.findAvailableInventory(
+            productId,
+            quantity
+        );
+        
+        return optionalEntity
+            .map(entity -> ResponseEntity.ok(SelectInventoryRes.from(entity)))
+            .orElse(ResponseEntity.notFound().build());
     }
 }
