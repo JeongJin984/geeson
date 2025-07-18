@@ -1,12 +1,15 @@
 package domain.product.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product_prices")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ProductPriceJpaEntity {
     @Id
     private Long productId;
@@ -20,4 +23,14 @@ public class ProductPriceJpaEntity {
     private BigDecimal discountPrice;
     private String currency;
     private LocalDateTime priceUpdatedAt;
+
+    @Builder
+    public ProductPriceJpaEntity(Long productId, ProductJpaEntity product, BigDecimal price, BigDecimal discountPrice, String currency) {
+        this.productId = productId;
+        this.product = product;
+        this.price = price;
+        this.discountPrice = discountPrice;
+        this.currency = currency;
+        this.priceUpdatedAt = LocalDateTime.now();
+    }
 }
