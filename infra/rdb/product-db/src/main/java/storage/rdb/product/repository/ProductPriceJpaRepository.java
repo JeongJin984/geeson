@@ -17,4 +17,9 @@ public class ProductPriceJpaRepository implements ProductPriceRepository {
     public Optional<ProductPriceJpaEntity> findById(Long id) {
         return repository.findById(id);
     }
+
+    @Override
+    public ProductPriceJpaEntity save(ProductPriceJpaEntity entity) {
+        return repository.save(entity);
+    }
 }
