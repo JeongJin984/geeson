@@ -90,9 +90,9 @@ public class OrderApi {
             )).toList();
     }
     
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/")
     public List<ProductOrderRes> getOrdersByCustomerId(
-        @PathVariable Long customerId
+        @RequestParam Long customerId
     ) {
         return orderListApp.getOrdersByCustomerId(customerId)
             .stream().map( order -> new ProductOrderRes(

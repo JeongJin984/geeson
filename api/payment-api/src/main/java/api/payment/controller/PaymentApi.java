@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/payment")
+@RequestMapping("/api/v1/payments")
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentApi {
@@ -52,9 +52,9 @@ public class PaymentApi {
      * @param customerId the ID of the customer
      * @return list of payments for the customer
      */
-    @GetMapping("/customer/{customerId}/payments")
+    @GetMapping("/")
     public List<CustomerPaymentRes> getCustomerPayments(
-        @PathVariable Long customerId
+        @RequestParam Long customerId
     ) {
         List<PaymentJpaEntity> customerPayments = paymentApp.getCustomerPayments(customerId);
         
