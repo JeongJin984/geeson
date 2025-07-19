@@ -42,7 +42,7 @@ public class InventoryApi {
     /**
      * Find available inventory for a product with sufficient quantity
      */
-    @GetMapping("/select")
+    @GetMapping("/available")
     public ResponseEntity<SelectInventoryRes> selectInventory(
             @RequestParam("productId") @Valid Long productId,
             @RequestParam("quantity") @Valid Integer quantity) {
