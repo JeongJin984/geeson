@@ -26,8 +26,7 @@ public class ProductCategoryJpaEntity {
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
-    @Builder
+
     public ProductCategoryJpaEntity(Long categoryId, String name, String description, Long parentId, Integer depth, Boolean isActive) {
         this.categoryId = categoryId;
         this.name = name;
