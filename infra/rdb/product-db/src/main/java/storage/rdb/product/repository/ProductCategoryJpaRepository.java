@@ -28,7 +28,12 @@ public class ProductCategoryJpaRepository implements ProductCategoryRepository {
     public List<ProductCategoryJpaEntity> findAll() {
         return repository.findAll();
     }
-    
+
+    @Override
+    public List<ProductCategoryJpaEntity> findAllByIds(List<Long> categoryId) {
+        return repository.findAllById(categoryId);
+    }
+
     @Override
     public Optional<ProductCategoryJpaEntity> findByName(String name) {
         return repository.findByName(name);

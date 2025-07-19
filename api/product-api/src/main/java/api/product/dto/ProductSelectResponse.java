@@ -1,6 +1,7 @@
 package api.product.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record ProductSelectResponse(
     Long productId,
@@ -12,5 +13,12 @@ public record ProductSelectResponse(
     BigDecimal price,
     BigDecimal discountPrice,
     String currency,
+    List<CategoryInfo> categories,
     String message
-) {}
+) {
+    public record CategoryInfo(
+        Long categoryId,
+        String name,
+        String description
+    ) {}
+}

@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class ProductApi {
                 .name(request.getName())
                 .sku(request.getSku())
                 .brandId(request.getBrandId())
+                .categoryId(request.getCategoryId())
                 .price(request.getPrice())
                 .discountPrice(request.getDiscountPrice())
                 .currency(request.getCurrency())
@@ -41,6 +45,11 @@ public class ProductApi {
             product.getSku(),
             product.getBrand().getBrandId().toString(),
             product.getIsActive(),
+            product.getProductCategoryMap().stream().map(v -> new ProductRegisterResponse.CategoryInfo(
+                v.getCategory().getCategoryId(),
+                    v.getCategory().getName(),
+                v.getCategory().getDescription()
+            )).toList(),
             "product registered successfully"
         ));
     }
@@ -53,6 +62,16 @@ public class ProductApi {
         // Extract product and price information
         ProductJpaEntity product = productWithPrice.product();
         var price = productWithPrice.price();
+        var categories = productWithPrice.categories();
+        
+        // Map categories to CategoryInfo objects
+        List<api.product.dto.ProductSelectResponse.CategoryInfo> categoryInfos = categories.stream()
+            .map(category -> new api.product.dto.ProductSelectResponse.CategoryInfo(
+                category.getCategoryId(),
+                category.getName(),
+                category.getDescription()
+            ))
+            .collect(Collectors.toList());
         
         // Return response
         return ResponseEntity.ok(new ProductSelectResponse(
@@ -65,6 +84,7 @@ public class ProductApi {
             price.getPrice(),
             price.getDiscountPrice(),
             price.getCurrency(),
+            categoryInfos,
             "product retrieved successfully"
         ));
     }

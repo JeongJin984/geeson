@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryRegisterApp {
@@ -42,5 +44,14 @@ public class CategoryRegisterApp {
         
         // Save category
         return productCategoryRepository.save(category);
+    }
+
+    /**
+     * Retrieves all product categories
+     * @return List of all product categories
+     */
+    @Transactional(readOnly = true)
+    public List<ProductCategoryJpaEntity> getAllCategories() {
+        return productCategoryRepository.findAll();
     }
 }

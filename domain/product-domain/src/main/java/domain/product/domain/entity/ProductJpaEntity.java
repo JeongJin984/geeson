@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -23,6 +25,9 @@ public class ProductJpaEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private BrandJpaEntity brand;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private final List<ProductCategoryMapJpaEntity> productCategoryMap = new ArrayList<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

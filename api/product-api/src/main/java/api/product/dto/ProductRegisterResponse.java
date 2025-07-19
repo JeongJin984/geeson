@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,5 +17,12 @@ public class ProductRegisterResponse {
     private String sku;
     private String brand;
     private Boolean isActive;
+    private List<CategoryInfo> category;
     private String message;
+
+    public record CategoryInfo(
+        Long categoryId,
+        String name,
+        String description
+    ) {}
 }
