@@ -4,6 +4,7 @@ import api.payment.request.PaymentMethodRegisterReq;
 import api.payment.request.PaymentRegisterReq;
 import api.payment.request.TossRequest;
 import api.payment.response.CustomerPaymentMethodRes;
+import api.payment.response.CustomerPaymentRes;
 import api.payment.response.PGConfirmRes;
 import api.payment.response.PaymentMethodRegisterRes;
 import api.payment.response.PaymentRegisterRes;
@@ -43,6 +44,33 @@ public class PaymentApi {
             v.getMethodId(),
             v.getType(),
             v.getMaskedNumber()
+        )).toList();
+    }
+    
+    /**
+     * Get all payments for a specific customer
+     * @param customerId the ID of the customer
+     * @return list of payments for the customer
+     */
+    @GetMapping("/customer/{customerId}/payments")
+    public List<CustomerPaymentRes> getCustomerPayments(
+        @PathVariable Long customerId
+    ) {
+        List<PaymentJpaEntity> customerPayments = paymentApp.getCustomerPayments(customerId);
+        
+        return customerPayments.stream().map(payment -> new CustomerPaymentRes(
+            payment.getPaymentId(),
+            payment.getOrderId(),
+            payment.getAmount(),
+            payment.getCurrency(),
+            payment.getStatus(),
+            payment.getRequestedAt(),
+            payment.getCompletedAt(),
+            new CustomerPaymentRes.PaymentMethodInfo(
+                payment.getPaymentMethod().getMethodId(),
+                payment.getPaymentMethod().getType(),
+                payment.getPaymentMethod().getMaskedNumber()
+            )
         )).toList();
     }
 
