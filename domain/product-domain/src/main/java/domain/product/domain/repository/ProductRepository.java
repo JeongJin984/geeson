@@ -1,8 +1,20 @@
 package domain.product.domain.repository;
 
 import domain.product.domain.entity.ProductJpaEntity;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends JpaRepository<ProductJpaEntity, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface ProductRepository {
     ProductJpaEntity findBySku(String sku);
+
+    ProductJpaEntity save(ProductJpaEntity entity);
+
+    Optional<ProductJpaEntity> findById(Long id);
+
 }
