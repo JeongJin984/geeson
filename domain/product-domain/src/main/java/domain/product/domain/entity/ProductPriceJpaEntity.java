@@ -25,8 +25,7 @@ public class ProductPriceJpaEntity {
     private LocalDateTime priceUpdatedAt;
 
     @Builder
-    public ProductPriceJpaEntity(Long productId, ProductJpaEntity product, BigDecimal price, BigDecimal discountPrice, String currency) {
-        this.productId = productId;
+    public ProductPriceJpaEntity(ProductJpaEntity product, BigDecimal price, BigDecimal discountPrice, String currency) {
         this.product = product;
         this.price = price;
         this.discountPrice = discountPrice;

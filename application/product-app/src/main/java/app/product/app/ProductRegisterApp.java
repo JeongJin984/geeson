@@ -50,7 +50,6 @@ public class ProductRegisterApp {
         
         // Create product price entity
         ProductPriceJpaEntity productPrice = ProductPriceJpaEntity.builder()
-            .productId(uuidGenerator.nextId())
             .product(savedProduct)
             .price(command.getPrice())
             .discountPrice(command.getDiscountPrice())
