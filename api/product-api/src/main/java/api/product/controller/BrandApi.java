@@ -1,4 +1,4 @@
-package api.product;
+package api.product.controller;
 
 import api.product.dto.BrandRegisterRequest;
 import api.product.dto.BrandRegisterResponse;
