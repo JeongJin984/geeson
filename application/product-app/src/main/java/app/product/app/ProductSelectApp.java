@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ProductSelectApp {
     
     private final ProductRepository productRepository;
     private final ProductPriceRepository productPriceRepository;
     private final ProductCategoryMapRepository productCategoryMapRepository;
-    
-    @Transactional(readOnly = true)
+
     public ProductWithPrice selectProduct(Long productId) {
         // Find product by ID
         ProductJpaEntity product = productRepository.findById(productId)
