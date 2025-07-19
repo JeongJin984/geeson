@@ -44,8 +44,8 @@ public class InventoryApi {
      */
     @GetMapping("/available")
     public ResponseEntity<SelectInventoryRes> selectInventory(
-            @RequestParam("productId") @Valid Long productId,
-            @RequestParam("quantity") @Valid Integer quantity) {
+            @RequestParam("productId") Long productId,
+            @RequestParam("quantity") Integer quantity) {
         Optional<InventoryJpaEntity> optionalEntity = inventorySelectApp.findAvailableInventory(
             productId,
             quantity
