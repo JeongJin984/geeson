@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import support.constants.payment.PaymentStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,10 +20,11 @@ public class PaymentJpaEntity {
     @Id
     private Long paymentId;
 
-    private Long orderId;
+    private String orderId;
     private BigDecimal amount;
     private String currency;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
     private LocalDateTime requestedAt;
     private LocalDateTime completedAt;
 

@@ -6,6 +6,7 @@ import domain.payment.repository.PaymentMethodRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import support.constants.payment.PgProviderCode;
 import support.masking.CardMasker;
 
 import java.time.LocalDateTime;
@@ -23,16 +24,12 @@ public class PaymentMethodRegisterApp {
                 .customerId(command.customerId())
                 .type(command.type())
                 .cardCode(command.cardCode())
-                .provider(command.provider())
+                .provider(PgProviderCode.valueOf(command.provider()))
                 .maskedNumber(CardMasker.mask(command.cardNumber()))
                 .expirationDate(command.expirationDate())
                 .billingKey(command.billingKey())
                 .createdAt(LocalDateTime.now())
                 .build()
         );
-    }
-
-    public List<PaymentMethodJpaEntity> getCustomerPaymentMethod(Long customerId) {
-        return paymentMethodRepository.findAllByCustomerId(customerId);
     }
 }

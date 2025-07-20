@@ -1,10 +1,12 @@
 package kafka.payment.consumer;
 
-import app.payment.app.PaymentApp;
+import app.payment.app.PaymentConfirmApp;
+import app.payment.app.PaymentRegisterApp;
 import app.payment.command.PaymentConfirmCommand;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.payment.entity.PaymentJpaEntity;
+import domain.payment.entity.TransactionJpaEntity;
 import kafka.payment.PGConfirmRes;
 import kafka.payment.TossInfraRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +19,15 @@ import support.messaging.event.PaymentFailedEvent;
 import support.messaging.event.PaymentSucceedEvent;
 import support.uuid.UuidGenerator;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaOrderEventConsumer {
-    private final PaymentApp paymentApp;
+    private final PaymentRegisterApp paymentRegisterApp;
+    private final PaymentConfirmApp paymentConfirmApp;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final TossInfraRequest tossInfraRequest;
     private final KafkaTemplate<String, String> kafkaTemplate;
@@ -37,26 +40,8 @@ public class KafkaOrderEventConsumer {
         PaymentRequestPayload payload = objectMapper.readValue(command, PaymentRequestPayload.class);
 
         try {
-            PGConfirmRes res = tossInfraRequest.pgConfirmRequest();
-
-            PaymentJpaEntity paymentJpaEntity = paymentApp.registerPayment(new PaymentConfirmCommand(
-                payload.getUserId(),
-                payload.getOrderId(),
-                "transactionId",
-                payload.getAmount(),
-                payload.getCurrency(),
-                res.status(),
-                payload.getPaymentMethodId(),
-                new PaymentConfirmCommand.PGConfirmInfo(
-                    "TOSS",
-                    "test_" + UUID.randomUUID(),
-                    "TOSS00001",
-                    res.paymentKey(),
-                    res.orderId(),
-                    res.totalAmount()
-                ),
-                res.toString()
-            ));
+            TransactionJpaEntity transaction = paymentConfirmApp.tossPaymentRequest(payload.getPaymentKey(), payload.getOrderId(), payload.getAmount());
+            PaymentJpaEntity payment = paymentRegisterApp.registerTossPayment(transaction);
 
             PaymentSucceedEvent paymentSucceed = new PaymentSucceedEvent(
                 String.valueOf(uuidGenerator.nextId()),

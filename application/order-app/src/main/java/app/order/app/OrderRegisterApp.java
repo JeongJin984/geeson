@@ -64,7 +64,7 @@ public class OrderRegisterApp {
             .order(productOrderEntity)
             .amount(productOrderEntity.getTotalPrice())
             .paymentMethod(String.valueOf(command.paymentMethodId()))
-            .transactionId(UUID.randomUUID().toString())
+            .transactionId(command.paymentKey())
             .createdAt(LocalDateTime.now())
             .updatedAt(LocalDateTime.now())
             .build();
@@ -81,6 +81,7 @@ public class OrderRegisterApp {
             String.valueOf(customer.getCustomerId()),
             paymentRequestEntity.getPaymentMethod(),
             paymentRequestEntity.getTransactionId(),
+            String.valueOf(paymentRequestEntity.getTransactionId()),
             productOrderEntity.getTotalPrice(),
             "KRW",
             orderItemEntityList.stream().map(v -> new OrderStartPayload.OrderItem(

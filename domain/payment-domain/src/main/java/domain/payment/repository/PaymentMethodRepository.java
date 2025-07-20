@@ -11,5 +11,6 @@ public interface PaymentMethodRepository {
     PaymentMethodJpaEntity save(PaymentMethodJpaEntity entity);
     Optional<PaymentMethodJpaEntity> findByPaymentMethodId(Long paymentMethodId);
     List<PaymentMethodJpaEntity> findAllByCustomerId(Long customerId);
+    Optional<PaymentMethodJpaEntity> findByOrderId(String orderId);
 }
 
