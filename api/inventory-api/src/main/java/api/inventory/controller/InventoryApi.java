@@ -62,5 +62,4 @@ public class InventoryApi {
             inventory.getUpdatedAt()
         ));
     }
-
 }

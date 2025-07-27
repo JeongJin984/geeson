@@ -30,16 +30,4 @@ public class InventoryItemsRegisterApp {
 
         return inventoryItemsRepository.save(entity);
     }
-
-    /**
-     * Find an inventory item by its ID.
-     * 
-     * @param id The ID of the inventory item.
-     * @return The found inventory item entity, or null if not found.
-     */
-    public InventoryItemsJpaEntity findInventoryItemById(Long id) {
-        return inventoryItemsRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Inventory Item not found: id=" + id));
-    }
-
 }

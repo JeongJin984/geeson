@@ -10,11 +10,5 @@ import java.util.Optional;
 public interface InventoryRepository {
     Optional<InventoryJpaEntity> findById(Long id);
     List<InventoryJpaEntity> findByProductId(Long productId);
-    
-    /**
-     * Save an inventory entity
-     * @param entity The inventory entity to save
-     * @return The saved inventory entity
-     */
     InventoryJpaEntity save(InventoryJpaEntity entity);
 }

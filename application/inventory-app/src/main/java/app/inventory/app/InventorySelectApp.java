@@ -3,10 +3,7 @@ package app.inventory.app;
 import domain.inventory.domain.entity.InventoryJpaEntity;
 import domain.inventory.domain.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class InventorySelectApp {
@@ -16,6 +13,13 @@ public class InventorySelectApp {
         this.inventoryRepository = inventoryRepository;
     }
 
+    /**
+     * Find available inventory for a product with sufficient quantity.
+     * 
+     * @param productId
+     * @param quantity
+     * @return
+     */
     public InventoryJpaEntity findAvailableInventory(Long productId, int quantity) {
         List<InventoryJpaEntity> inventories = inventoryRepository.findByProductId(productId);
 

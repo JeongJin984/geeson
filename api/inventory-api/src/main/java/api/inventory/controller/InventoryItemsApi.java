@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.inventory.request.RegisterInventoryItemReq;
 import api.inventory.response.RegisterInventoryItemRes;
+import app.inventory.app.InventoryItemsListApp;
 import app.inventory.app.InventoryItemsRegisterApp;
 import domain.inventory.domain.entity.InventoryItemsJpaEntity;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ import app.inventory.command.RegisterInventoryItemCommand;
 @RequiredArgsConstructor
 public class InventoryItemsApi {
     private final InventoryItemsRegisterApp inventoryItemsRegisterApp;
+    private final InventoryItemsListApp inventoryItemsListApp;
 
     @PostMapping
     public ResponseEntity<RegisterInventoryItemRes> registerInventoryItem(
@@ -34,7 +36,7 @@ public class InventoryItemsApi {
 
     @GetMapping("/{id}")
     public ResponseEntity<RegisterInventoryItemRes> findInventoryItemById(@PathVariable Long id) {
-        InventoryItemsJpaEntity entity = inventoryItemsRegisterApp.findInventoryItemById(id);
+        InventoryItemsJpaEntity entity = inventoryItemsListApp.findInventoryItemById(id);
         return ResponseEntity.ok(RegisterInventoryItemRes.from(entity));
     }
 }
