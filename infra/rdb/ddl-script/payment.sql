@@ -44,7 +44,7 @@ CREATE TABLE payment_gateways (
 
 CREATE TABLE transactions (
                               transaction_id BIGINT  PRIMARY KEY,
-                              payment_id BIGINT NOT NULL,
+                              payment_id BIGINT,
                               gateway_id BIGINT NOT NULL,
                               transaction_type VARCHAR(50), -- APPROVE, CANCEL, REFUND
                               transaction_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
