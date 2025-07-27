@@ -19,7 +19,7 @@ public class TransactionJpaRepository implements TransactionRepository {
     }
 
     @Override
-    public Optional<TransactionJpaEntity> findByOrderId(String orderId) {
+    public Optional<TransactionJpaEntity> findByPgOrderId(String orderId) {
         return repository.findByPgOrderId(orderId);
     }
 }

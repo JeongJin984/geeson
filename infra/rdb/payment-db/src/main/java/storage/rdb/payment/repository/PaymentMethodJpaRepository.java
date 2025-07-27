@@ -27,10 +27,5 @@ public class PaymentMethodJpaRepository implements PaymentMethodRepository {
     public List<PaymentMethodJpaEntity> findAllByCustomerId(Long customerId) {
         return repository.findAllByCustomerId(customerId);
     }
-
-    @Override
-    public Optional<PaymentMethodJpaEntity> findByOrderId(String orderId) {
-        return repository.findByOrderId(orderId);
-    }
 }
 

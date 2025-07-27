@@ -50,6 +50,7 @@ public class OrderRegisterApp {
 
         List<OrderItemJpaEntity> orderItemEntityList = command.items().stream()
             .map(item -> OrderItemJpaEntity.builder()
+                .orderItemId(uuidGenerator.nextId())
                 .order(productOrderEntity)
                 .productId(item.productId())
                 .quantity(item.quantity())

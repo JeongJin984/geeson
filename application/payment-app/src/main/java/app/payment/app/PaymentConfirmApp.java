@@ -4,8 +4,6 @@ import app.payment.exception.NoSuchPaymentGatewayException;
 import app.payment.exception.TransactionAlreadyCompleteException;
 import app.payment.port.TossPaymentRequestPort;
 import domain.payment.entity.PaymentGatewayJpaEntity;
-import domain.payment.entity.PaymentJpaEntity;
-import domain.payment.entity.PaymentMethodJpaEntity;
 import domain.payment.entity.TransactionJpaEntity;
 import domain.payment.repository.PaymentGatewayRepository;
 import domain.payment.repository.PaymentMethodRepository;
@@ -16,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
-import support.constants.payment.PaymentStatus;
 import support.constants.payment.TransactionResultCode;
 import support.constants.payment.TransactionType;
 import support.constants.payment.VendorCode;
@@ -37,14 +34,14 @@ public class PaymentConfirmApp {
     private final UuidGenerator uuidGenerator;
     private final PaymentMethodRepository paymentMethodRepository;
 
-    TossPaymentRequestPort tossPaymentRequestPort;
+    private final TossPaymentRequestPort tossPaymentRequestPort;
 
     // Vendor가 toss일때 결제 승인 성공에 따른 결제 요청
     public TransactionJpaEntity tossPaymentRequest(String paymentKey, String orderId, BigDecimal amount) throws IOException, ParseException {
         PaymentGatewayJpaEntity tossVendor = paymentGatewayRepository.findByVendorCode(VendorCode.TOSS)
             .orElseThrow(() -> new NoSuchPaymentGatewayException("TOSS VENDOR NOT FOUND"));
 
-        Optional<TransactionJpaEntity> pastTransaction = transactionRepository.findByOrderId(orderId);
+        Optional<TransactionJpaEntity> pastTransaction = transactionRepository.findByPgOrderId(orderId);
 
         if(pastTransaction.isPresent() && pastTransaction.get().isCompleted()) {
             throw new TransactionAlreadyCompleteException("TOSS TRANSACTION ALREADY COMPLETED");

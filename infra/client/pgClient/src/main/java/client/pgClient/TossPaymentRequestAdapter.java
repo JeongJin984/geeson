@@ -13,13 +13,15 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
 @Service
-public class TossPaymentRequest implements TossPaymentRequestPort {
+public class TossPaymentRequestAdapter implements TossPaymentRequestPort {
     private final JSONParser parser = new JSONParser();
 
     @Override
     public JSONObject tossPaymentRequest(String paymentKey, String orderId, BigDecimal amount) throws IOException, ParseException {
         ClassPathResource resource = new ClassPathResource("data/toss_confirm_res.json");
-        return (JSONObject) parser.parse(new BufferedReader(new InputStreamReader(resource.getInputStream())));
+        JSONObject result = (JSONObject) parser.parse(new BufferedReader(new InputStreamReader(resource.getInputStream())));
+        result.put("orderId", orderId);
+        return result;
     }
 
     @Override

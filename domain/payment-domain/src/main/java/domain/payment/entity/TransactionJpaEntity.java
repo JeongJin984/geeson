@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Builder
 public class TransactionJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)

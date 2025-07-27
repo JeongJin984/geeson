@@ -35,57 +35,27 @@ public class PaymentRegisterApp {
     private final UuidGenerator uuidGenerator;
     private final JSONParser jsonParser = new JSONParser();
 
-    public PaymentJpaEntity registerTossPayment(TransactionJpaEntity transaction) throws ParseException {
+    public PaymentJpaEntity registerTossPayment(TransactionJpaEntity transaction, PaymentMethodJpaEntity paymentMethod) throws ParseException {
         JSONObject paymentResponse = (JSONObject) jsonParser.parse(transaction.getResultMessage());
 
-        Optional<PaymentJpaEntity> orderPayment = paymentRepository.findByOrderId(Long.valueOf(paymentResponse.get("orderId").toString()));
+        Optional<PaymentJpaEntity> orderPayment = paymentRepository.findByOrderId(paymentResponse.get("orderId").toString());
 
         if(orderPayment.isPresent()) {
             log.info("payment already registered {}", paymentResponse.get("orderId").toString());
             return orderPayment.get();
         }
 
-        Optional<PaymentMethodJpaEntity> paymentMethod = paymentMethodRepository.findByOrderId(paymentResponse.get("orderId").toString());
-
-        if(paymentMethod.isPresent()) {
-            paymentMethod.get().setPaymentResult(
-                paymentResponse.get("orderId").toString(),
-                "EASY_PAY",
-                ((JSONObject)paymentResponse.get("card")).get("issuerCode").toString(),
-                PgProviderCode.TOSS_PAY,
-                ((JSONObject)paymentResponse.get("card")).get("number").toString()
-            );
-        } else {
-            paymentMethod = Optional.of(
-                paymentMethodRepository.save(new PaymentMethodJpaEntity(
-                    uuidGenerator.nextId(),
-                    null,
-                    paymentResponse.get("orderId").toString(),
-                    "EASY_PAY",
-                    ((JSONObject)paymentResponse.get("card")).get("issuerCode").toString(),
-                    PgProviderCode.TOSS_PAY,
-                    ((JSONObject)paymentResponse.get("card")).get("number").toString(),
-                    null,
-                    null,
-                    LocalDateTime.now()
-                ))
-            );
-        }
-
-        PaymentJpaEntity payment = paymentRepository.save(
+        return paymentRepository.save(
             PaymentJpaEntity.builder()
                 .paymentId(uuidGenerator.nextId())
                 .orderId(paymentResponse.get("orderId").toString())
-                .amount(new BigDecimal(((JSONObject)paymentResponse.get("card")).get("number").toString()))
+                .amount(new BigDecimal(((JSONObject)paymentResponse.get("card")).get("amount").toString()))
                 .currency("KRW")
                 .status(PaymentStatus.SUCCEED)
-                .paymentMethod(paymentMethod.get())
+                .paymentMethod(paymentMethod)
                 .requestedAt(LocalDateTime.now())
                 .build()
         );
-
-
-        return payment;
     }
     
     /**

@@ -6,16 +6,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import support.constants.payment.VendorCode;
+import support.uuid.UuidGenerator;
 
 @Entity
 @Table(name = "payment_gateways")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
+@AllArgsConstructor
 public class PaymentGatewayJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gatewayId;
     private String name;
     private String apiUrl;

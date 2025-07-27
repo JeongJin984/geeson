@@ -8,6 +8,5 @@ import java.util.Optional;
 
 public interface SpringDataPaymentMethodJpaRepository extends JpaRepository<PaymentMethodJpaEntity, Long> {
     List<PaymentMethodJpaEntity> findAllByCustomerId(Long customerId);
-    Optional<PaymentMethodJpaEntity> findByOrderId(String orderId);
 }
 
