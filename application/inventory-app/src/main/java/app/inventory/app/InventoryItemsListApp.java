@@ -19,7 +19,7 @@ public class InventoryItemsListApp {
      * @param id The ID of the inventory item.
      * @return The found inventory item entity, or null if not found.
      */
-    public InventoryItemsJpaEntity findInventoryItemById(Long id) {
+    public InventoryItemsJpaEntity findById(Long id) {
         return inventoryItemsRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Inventory Item not found: id=" + id));
     }

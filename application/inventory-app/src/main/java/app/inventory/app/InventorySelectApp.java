@@ -4,6 +4,7 @@ import domain.inventory.domain.entity.InventoryJpaEntity;
 import domain.inventory.domain.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
 import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class InventorySelectApp {
@@ -18,7 +19,8 @@ public class InventorySelectApp {
      * 
      * @param productId
      * @param quantity
-     * @return
+     * @return InventoryJpaEntity
+     * @throws IllegalArgumentException if no available inventory is found
      */
     public InventoryJpaEntity findAvailableInventory(Long productId, int quantity) {
         List<InventoryJpaEntity> inventories = inventoryRepository.findByProductId(productId);
@@ -29,6 +31,4 @@ public class InventorySelectApp {
             .max(Comparator.comparing(inv -> inv.getWareHouse().getCapacity()))
             .orElseThrow(() -> new IllegalArgumentException("Not enough inventory"));
     }
-
-
 }

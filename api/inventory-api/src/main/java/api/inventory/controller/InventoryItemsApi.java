@@ -29,14 +29,14 @@ public class InventoryItemsApi {
     public ResponseEntity<RegisterInventoryItemRes> registerInventoryItem(
             @RequestBody @Valid RegisterInventoryItemReq req) {
         InventoryItemsJpaEntity entity = inventoryItemsRegisterApp
-                .registerInventoryItem(new RegisterInventoryItemCommand(req.inventoryId(), req.batchLotId(),
+                .registerInventoryItem(new RegisterInventoryItemCommand(req.inventoryId(),
                     req.serialNumber(), req.status()));
         return ResponseEntity.status(HttpStatus.CREATED).body(RegisterInventoryItemRes.from(entity));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RegisterInventoryItemRes> findInventoryItemById(@PathVariable Long id) {
-        InventoryItemsJpaEntity entity = inventoryItemsListApp.findInventoryItemById(id);
+    public ResponseEntity<RegisterInventoryItemRes> findById(@PathVariable Long id) {
+        InventoryItemsJpaEntity entity = inventoryItemsListApp.findById(id);
         return ResponseEntity.ok(RegisterInventoryItemRes.from(entity));
     }
 }

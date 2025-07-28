@@ -42,7 +42,7 @@ public class InventoryApi {
      * Find available inventory for a product with sufficient quantity
      */
     @GetMapping("/available")
-    public ResponseEntity<?> selectInventory(
+    public ResponseEntity<SelectInventoryRes> selectInventory(
             @RequestParam("productId") Long productId,
             @RequestParam("quantity") Integer quantity) {
         InventoryJpaEntity inventory = inventorySelectApp.findAvailableInventory(
