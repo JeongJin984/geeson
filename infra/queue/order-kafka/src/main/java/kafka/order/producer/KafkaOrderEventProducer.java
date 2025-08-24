@@ -2,7 +2,6 @@ package kafka.order.producer;
 
 import app.order.port.OrderEventPublisherPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import domain.order.message.OrderEventPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
