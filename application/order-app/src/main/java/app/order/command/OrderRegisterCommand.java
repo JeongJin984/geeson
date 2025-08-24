@@ -13,7 +13,7 @@ public record OrderRegisterCommand(
     public BigDecimal getTotalPrice() {
         BigDecimal totalPrice = BigDecimal.ZERO;
         for(OrderItem item : items) {
-            totalPrice = totalPrice.add(BigDecimal.valueOf(item.unitPrice()).multiply(BigDecimal.valueOf(item.quantity())));
+            totalPrice = totalPrice.add(item.unitPrice().multiply(BigDecimal.valueOf(item.quantity())));
         }
         return totalPrice;
     }
@@ -22,6 +22,6 @@ public record OrderRegisterCommand(
             Long productId,
             String productName,
             int quantity,
-            int unitPrice
+            BigDecimal unitPrice
     ) {}
 }

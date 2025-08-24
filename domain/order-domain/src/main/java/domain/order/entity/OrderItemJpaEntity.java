@@ -11,10 +11,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "order_items")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
 public class OrderItemJpaEntity {
     @Id
     private Long orderItemId;
@@ -41,8 +39,17 @@ public class OrderItemJpaEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public void registerOrder(ProductOrderJpaEntity order) {
+    public void setOrder(ProductOrderJpaEntity order) {
         this.order = order;
-        this.order.addOrderItem(this);
+    }
+
+    public OrderItemJpaEntity(Long id, Long productId, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice) {
+        this.orderItemId = id;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }

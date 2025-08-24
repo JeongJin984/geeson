@@ -1,5 +1,6 @@
 package kafka.order.producer;
 
+import app.order.port.OrderEventPublisherPort;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.order.message.OrderEventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import support.messaging.command.OrderStartPayload;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaOrderEventProducer implements OrderEventPublisher {
+public class KafkaOrderEventProducer implements OrderEventPublisherPort {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final ObjectMapper mapper = new ObjectMapper();
 
