@@ -5,8 +5,9 @@ import api.order.response.ProductOrderRes;
 import api.order.response.RegisterOrderRes;
 import app.order.app.OrderListApp;
 import app.order.app.OrderRegisterApp;
-import app.order.app.OrderRegisterApp.TestInventoryItemRes;
+import app.order.app.ShipmentApp;
 import app.order.command.OrderRegisterCommand;
+import app.order.port.in.CreateShipmentUseCase.CreateShipmentCommand;
 import domain.order.entity.ProductOrderJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import java.util.List;
 public class OrderApi {
         private final OrderRegisterApp orderRegisterApp;
         private final OrderListApp orderListApp;
-
+        private final ShipmentApp shipmentApp;
         // @todo [2025-09-17] DELETE this endpoint after confirming gRPC inventory fetch
         @PostMapping("/testCreateOrder")
         public TestOrderRes testCreateOrder(@RequestBody RegisterOrderReq orderReq) {
@@ -71,6 +72,9 @@ public class OrderApi {
                                                 v.productName(),
                                                 v.quantity(),
                                                 v.unitPrice())).toList()));
+                // 출고 데이터 생성
+                shipmentApp.createShipment(new CreateShipmentCommand(productOrder.getOrderId(), MessageFormat
+                                .format("TRACKING-{0}-{1}", productOrder.getOrderId(), orderReq.customerId())));
 
                 return new RegisterOrderRes(
                                 productOrder.getOrderId(),

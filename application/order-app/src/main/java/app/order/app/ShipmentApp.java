@@ -54,7 +54,6 @@ public class ShipmentApp implements CreateShipmentUseCase, GetShipmentUseCase {
             String shippedDate = existingShipment.getShippedDate() != null
                     ? existingShipment.getShippedDate().toString()
                     : null;
-
             return new CreateShipmentResult(
                     existingShipment.getShipmentId(),
                     existingShipment.getOrder().getOrderId(),
