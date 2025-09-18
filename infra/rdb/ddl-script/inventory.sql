@@ -38,7 +38,7 @@ CREATE TABLE inventory_reservations (
     order_id BIGINT NOT NULL,
     reserved_quantity INT NOT NULL,
     reserved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP,
+    expires_at TIMESTAMP NULL DEFAULT NULL,
     status VARCHAR(50) DEFAULT 'RESERVED',
     FOREIGN KEY (inventory_id) REFERENCES inventory(inventory_id)
 );
