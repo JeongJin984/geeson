@@ -8,6 +8,7 @@ service InventoryService {
   rpc AddInventory(AddInventoryRequest) returns (AddInventoryResponse);
   rpc SelectInventory(SelectInventoryRequest) returns (SelectInventoryResponse);
   rpc SelectInventories(SelectInventoriesRequest) returns (SelectInventoriesResponse);
+  rpc ReserveInventory(ReserveInventoryRequest) returns (ReserveInventoryResponse);
 }
 
 message Inventory {
@@ -62,4 +63,16 @@ message InventoryResult {
   int64 productId = 1;
   bool available = 2;
   Inventory inventory = 3;
+}
+
+// ===== Reserve =====
+message ReserveInventoryRequest {
+  int64 productId = 1;
+  int64 warehouseId = 2;
+  int32 quantity = 3;
+}
+
+message ReserveInventoryResponse {
+  bool success = 1;       // 예약 성공 여부
+  Inventory inventory = 2; // 최신 재고 상태
 }

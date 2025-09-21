@@ -1,15 +1,6 @@
 package grpc.client;
 
-import grpc.inventory.AddInventoryRequest;
-import grpc.inventory.AddInventoryResponse;
-import grpc.inventory.SelectInventoryRequest;
-import grpc.inventory.SelectInventoryResponse;
-import grpc.inventory.SelectInventoriesRequest;
-import grpc.inventory.SelectInventoriesResponse;
-import grpc.inventory.InventoryServiceGrpc;
-import grpc.inventory.InventoryServiceGrpc.InventoryServiceBlockingStub;
-import grpc.inventory.InventoryCheck;
-import grpc.inventory.InventoryResult;
+import grpc.inventory.*;
 import grpc.client.dto.OrderRegister;
 
 import io.grpc.ManagedChannel;
@@ -27,7 +18,7 @@ import java.util.stream.Collectors;
 public class InventoryGrpcClient {
 
     private ManagedChannel channel;
-    private InventoryServiceBlockingStub inventoryStub;
+    private InventoryServiceGrpc.InventoryServiceBlockingStub inventoryStub;
 
     @PostConstruct
     public void init() {
@@ -77,6 +68,7 @@ public class InventoryGrpcClient {
     }
 
     public Map<Long, Boolean> checkInventories(List<OrderRegister> items) {
+        // InventoryCheck 객체로 변환
         List<InventoryCheck> checks = items.stream()
                 .map(item -> InventoryCheck.newBuilder()
                         .setProductId(item.productId())
@@ -84,6 +76,7 @@ public class InventoryGrpcClient {
                         .build())
                 .toList();
 
+        // gRPC 요청 생성
         SelectInventoriesRequest request = SelectInventoriesRequest.newBuilder()
                 .addAllChecks(checks)
                 .build();
@@ -94,6 +87,21 @@ public class InventoryGrpcClient {
                 .collect(Collectors.toMap(
                         InventoryResult::getProductId,
                         InventoryResult::getAvailable));
+    }
+
+    public boolean reserveInventory(Long productId, int quantity) {
+        ReserveInventoryRequest request = ReserveInventoryRequest.newBuilder()
+                .setProductId(productId)
+                .setQuantity(quantity)
+                .build();
+
+        try {
+            ReserveInventoryResponse response = inventoryStub.reserveInventory(request);
+            return response.getSuccess();
+        } catch (StatusRuntimeException e) {
+            System.err.println("gRPC reserveInventory failed: " + e.getStatus());
+            throw e;
+        }
     }
 
     @PreDestroy
