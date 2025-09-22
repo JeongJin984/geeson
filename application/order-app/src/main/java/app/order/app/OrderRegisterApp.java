@@ -1,5 +1,6 @@
 package app.order.app;
 
+import app.order.app.OrderListApp;
 import app.order.command.OrderRegisterCommand;
 import app.order.command.OrderRegisterCommand.OrderItem;
 import domain.order.entity.*;
@@ -36,7 +37,7 @@ public class OrderRegisterApp {
     private final InventoryItemGrpcClient inventoryItemGrpcClient;
     private final InventoryGrpcClient inventoryGrpcClient;
     private final OrderEventPublisher orderEventPublisher;
-
+    private final OrderListApp orderListApp;
 
     public ProductOrderJpaEntity registerOrder(OrderRegisterCommand command) {
         CustomerJpaEntity customer = customerRepository.findByCustomerId(command.customerId())
@@ -146,14 +147,19 @@ public class OrderRegisterApp {
         }
     }
 
+    // @todo redisson 처리 추가
     public ReserveInventoriesResponse reserveInventories(List<OrderItem> productQuantities) {
         try {
+            // 재고 확인
+            Map<Long, Boolean> checked = orderListApp.checkInventories(productQuantities);
+            if (checked.values().stream().anyMatch(avail -> !avail)) {
+                throw new IllegalArgumentException("재고 부족 상품 존재");
+            }
             Map<Long, Integer> newProductQuantities = productQuantities.stream()
-                .collect(Collectors.toMap(
-                    OrderItem::productId,
-                    OrderItem::quantity,
-                    Integer::sum
-                ));
+                    .collect(Collectors.toMap(
+                            OrderItem::productId,
+                            OrderItem::quantity,
+                            Integer::sum));
             return inventoryGrpcClient.reserveInventories(newProductQuantities);
         } catch (Exception e) {
             e.printStackTrace();

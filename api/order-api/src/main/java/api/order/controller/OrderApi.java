@@ -3,6 +3,7 @@ package api.order.controller;
 import api.order.request.RegisterOrderReq;
 import api.order.response.ProductOrderRes;
 import api.order.response.RegisterOrderRes;
+import grpc.inventory.ReserveInventoriesResponse;
 import app.order.app.OrderListApp;
 import app.order.app.OrderRegisterApp;
 import app.order.app.OrderRegisterApp.TestInventoryItemRes;
@@ -10,12 +11,14 @@ import app.order.command.OrderRegisterCommand;
 import domain.order.entity.ProductOrderJpaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/v1/orders")
 public class OrderApi {
         private final OrderRegisterApp orderRegisterApp;
@@ -53,7 +56,7 @@ public class OrderApi {
                 return new TestOrderRes(serialNum, item);
         }
         
-        @PostMapping("")
+        @PostMapping("/testCreateOrder")
         public RegisterOrderRes ResolveCreateOrder(
                         @RequestBody RegisterOrderReq orderReq) {
 
@@ -72,23 +75,18 @@ public class OrderApi {
                                 ))
                                 .toList()
                 );
-                // 재고 확인
-                Map<Long, Boolean> checkedOrderList = orderListApp.checkInventories(command.items());
-                if (checkedOrderList.isEmpty()) {
-                        throw new IllegalArgumentException("재고 부족");
-                }
 
-                // @todo Locking 처리 필요(inventory)
-                RegisterOrderRes productOrder = createOrder(orderReq);
-                return productOrder;
-                // @todo 출고 데이터 생성
+                ReserveResultDto reservedInventories = orderRegisterApp.reserveInventories(command.items());
+                if (!reservedInventories.failedItems().isEmpty()) {
+                        log.info("주문 재고 예약 부족 failedItems: {}", reservedInventories.failedItems());
+                        throw new IllegalArgumentException("주문 재고 예약 부족");
+                }
+                return createOrder(orderReq);
         }
 
         @PostMapping("")
         public RegisterOrderRes createOrder(
                         @RequestBody RegisterOrderReq orderReq) {
-
-
 
                 ProductOrderJpaEntity productOrder = orderRegisterApp.registerOrder(new OrderRegisterCommand(
                                 orderReq.customerId(),
