@@ -24,57 +24,23 @@ public class OrderApi {
         private final OrderRegisterApp orderRegisterApp;
         private final OrderListApp orderListApp;
 
-        // @todo [2025-09-17] DELETE this endpoint after confirming gRPC inventory fetch
-        @PostMapping("/testCreateOrder")
-        public TestOrderRes testCreateOrder(@RequestBody RegisterOrderReq orderReq) {
-                List<RegisterOrderReq.OrderItem> items = orderReq.items();
-                long productId = items.get(0).productId();
-
-                var item = orderRegisterApp.createInventoryItem(
-                                orderReq.customerId(),
-                                "SERIAL-" + productId,
-                                "READY");
-
-                return new TestOrderRes(orderReq, item);
-        }
-
-        // @todo [2025-09-17] DELETE this endpoint after confirming gRPC inventory fetch
-        @GetMapping("/testGetOrder")
-        public TestOrderRes testGetOrder(
-                        @RequestBody RegisterOrderReq orderReq) {
-                var item = orderRegisterApp.testSelectInventoryItem(1L);
-
-                // Order 등록 결과를 InventoryItem과 함께 응답
-                return new TestOrderRes(orderReq, item);
-        }
-
-        // @todo [2025-09-17] DELETE this endpoint after confirming gRPC inventory fetch
-        @GetMapping("/testGetInvenItemsBySerialNum")
-        public TestOrderRes testGetInvenItemsBySerialNum(
-                        @RequestParam("serialNum") String serialNum) {
-                var item = orderRegisterApp.selectInventoryItemBySerialNumber(serialNum);
-                return new TestOrderRes(serialNum, item);
-        }
-        
         @PostMapping("/testCreateOrder")
         public RegisterOrderRes ResolveCreateOrder(
                         @RequestBody RegisterOrderReq orderReq) {
 
-                 // API DTO -> Application Command 변환
+                // API DTO -> Application Command 변환
                 OrderRegisterCommand command = new OrderRegisterCommand(
-                        orderReq.customerId(),
-                        orderReq.shippingAddressId(),
-                        orderReq.paymentMethodId(),
-                        orderReq.paymentKey(),
-                        orderReq.items().stream()
-                                .map(i -> new OrderRegisterCommand.OrderItem(
-                                        i.productId(),
-                                        i.productName(),
-                                        i.quantity(),
-                                        i.unitPrice()
-                                ))
-                                .toList()
-                );
+                                orderReq.customerId(),
+                                orderReq.shippingAddressId(),
+                                orderReq.paymentMethodId(),
+                                orderReq.paymentKey(),
+                                orderReq.items().stream()
+                                                .map(i -> new OrderRegisterCommand.OrderItem(
+                                                                i.productId(),
+                                                                i.productName(),
+                                                                i.quantity(),
+                                                                i.unitPrice()))
+                                                .toList());
 
                 ReserveResultDto reservedInventories = orderRegisterApp.reserveInventories(command.items());
                 if (!reservedInventories.failedItems().isEmpty()) {
@@ -175,28 +141,4 @@ public class OrderApi {
                                                                 order.getPayment().getTransactionId())))
                                 .toList();
         }
-}
-
-// @todo [2025-09-17] DELETE this endpoint after confirming gRPC inventory fetch
-// is stable
-// Test response class for Order
-class TestOrderRes {
-        private Long customerId;
-        private Object item;
-        private String serialNum;
-
-        public TestOrderRes(RegisterOrderReq req, Object item) {
-                this.customerId = req.customerId();
-                this.item = item;
-        }
-
-        public TestOrderRes(String serialNum, TestInventoryItemRes item) {
-                this.serialNum = serialNum;
-                this.item = item;
-        }
-
-        public Object getItem() {
-                return item;
-        }
-
 }
