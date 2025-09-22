@@ -1,6 +1,7 @@
 package app.order.app;
 
 import app.order.command.OrderRegisterCommand;
+import app.order.command.OrderRegisterCommand.OrderItem;
 import domain.order.entity.*;
 import domain.order.message.OrderEventPublisher;
 import app.order.exception.CustomerNotFoundException;
@@ -17,10 +18,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import grpc.client.InventoryGrpcClient;
 import grpc.client.InventoryItemGrpcClient;
 import grpc.inventory.InventoryItemResponse;
+import grpc.inventory.ReserveInventoriesResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -143,9 +146,15 @@ public class OrderRegisterApp {
         }
     }
 
-    public boolean reserveInventories(Map<Long, Integer> productQuantities) {
+    public ReserveInventoriesResponse reserveInventories(List<OrderItem> productQuantities) {
         try {
-            return inventoryGrpcClient.reserveInventories(productQuantities);
+            Map<Long, Integer> newProductQuantities = productQuantities.stream()
+                .collect(Collectors.toMap(
+                    OrderItem::productId,
+                    OrderItem::quantity,
+                    Integer::sum
+                ));
+            return inventoryGrpcClient.reserveInventories(newProductQuantities);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error fetching inventory item", e);
