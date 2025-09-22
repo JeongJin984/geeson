@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import grpc.client.InventoryGrpcClient;
 import grpc.client.InventoryItemGrpcClient;
@@ -142,9 +143,9 @@ public class OrderRegisterApp {
         }
     }
 
-    public boolean reserveInventories(Long productId, int quantity) {
+    public boolean reserveInventories(Map<Long, Integer> productQuantities) {
         try {
-            return inventoryGrpcClient.reserveInventory(productId, quantity);
+            return inventoryGrpcClient.reserveInventories(productQuantities);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error fetching inventory item", e);
