@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import app.order.app.ShipmentApp;
-import domain.order.domain.entity.ShipmentJpaEntity;
+import domain.order.entity.ShipmentJpaEntity;
 
 import grpc.client.ShipmentGrpcClient; 
 import grpc.shipment.GetShipmentResponse;
