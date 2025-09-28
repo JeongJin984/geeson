@@ -19,7 +19,7 @@ public class StockMovementListApp {
      * @return List<StockMovementJpaEntity>
      */
     @Transactional(readOnly = true)
-    public List<StockMovementJpaEntity> getMovementHistory(Long productId) {
-        return stockMovementRepo.findByProductId(productId);
+    public List<StockMovementJpaEntity> getMovementHistory(Long inventoryId) {
+        return stockMovementRepo.findByInventoryId(inventoryId);
     }
 }

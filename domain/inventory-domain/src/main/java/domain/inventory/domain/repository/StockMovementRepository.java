@@ -20,5 +20,7 @@ public interface StockMovementRepository {
     /**
      * 상품별 이동 기록 조회
      */
-    List<StockMovementJpaEntity> findByProductId(Long productId);
+    List<StockMovementJpaEntity> findByInventoryId(Long inventoryId);
+
+    public StockMovementJpaEntity findByReferenceId(Long referenceId);
 }
