@@ -10,11 +10,11 @@ public interface SpringDataStockMovementJpaRepository extends JpaRepository<Stoc
     /**
      * 특정 인벤토리의 이동 기록 조회
      */
-    List<StockMovementJpaEntity> findByInventoryId(Long inventoryId);
+    List<StockMovementJpaEntity> findByInventory_InventoryId(Long inventoryId);
 
     /**
      * referenceId 로 조회 (중복 방지용)
      */
-    StockMovementJpaEntity findByReferenceId(Long referenceId);
+    StockMovementJpaEntity findByReferenceId(String referenceId);
 
 }
