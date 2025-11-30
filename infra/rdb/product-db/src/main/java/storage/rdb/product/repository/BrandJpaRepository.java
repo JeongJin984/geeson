@@ -4,7 +4,7 @@ import domain.product.domain.entity.BrandJpaEntity;
 import domain.product.domain.repository.BrandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.product.repository.adapter.SpringDataBrandJpaRepository;
+import storage.rdb.product.repository.adapter.jpa.SpringDataBrandJpaRepository;
 
 import java.util.Optional;
 

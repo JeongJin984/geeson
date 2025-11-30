@@ -3,7 +3,7 @@ package storage.rdb.payment.repository;
 import domain.payment.repository.BillingKeyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.payment.repository.adapter.SpringDataBillingKeyJpaRepository;
+import storage.rdb.payment.repository.adapter.jpa.SpringDataBillingKeyJpaRepository;
 
 @Repository
 @RequiredArgsConstructor

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="storage.rdb.order.repository.adapter.mybatis.ProductOrderMyBatisRepository">
+    <resultMap id="OrderDtoMap" type="app.backoffice.dto.OrderDto">
+        <id property="orderId" column="order_id"/>
+        <id property="customerId" column="customer_id"/>
+        <id property="orderStatus" column="status"/>
+        <id property="reqDt" column="created_at"/>
+        <id property="amount" column="total_price"/>
+    </resultMap>
+
+    <select id="countOrders" resultType="long">
+        SELECT COUNT(1)
+        FROM orders
+        <where>
+            <!-- 날짜 둘 다 있으면 BETWEEN -->
+            <if test="reqDtSt != null and reqDtEd != null">
+                AND created_at BETWEEN #{reqDtSt} AND #{reqDtEd}
+            </if>
+
+            <!-- 시작만 있으면 >= -->
+            <if test="reqDtSt != null and reqDtEd == null">
+                AND created_at <![CDATA[ >= ]]> #{reqDtSt}
+            </if>
+
+            <!-- 끝만 있으면 <= -->
+            <if test="reqDtSt == null and reqDtEd != null">
+                AND created_at <![CDATA[ <= ]]> #{reqDtEd}
+            </if>
+
+            <!-- 상태 리스트가 비어있지 않을 때만 IN 조건 -->
+            <if test="orderStatus != null and orderStatus.size > 0">
+                AND status IN
+                <foreach collection="orderStatus" item="st" open="(" separator="," close=")">
+                    #{st}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="getOrders" resultMap="OrderDtoMap">
+        SELECT
+        o.id           AS order_id,
+        o.customer_id  AS customer_id,
+        o.status       AS status,
+        o.created_at   AS created_at,
+        o.total_price  AS total_price
+        FROM orders o
+        <where>
+            <!-- 날짜 둘 다 있으면 BETWEEN -->
+            <if test="reqDtSt != null and reqDtEd != null">
+                AND o.created_at BETWEEN #{reqDtSt} AND #{reqDtEd}
+            </if>
+
+            <!-- 시작만 있으면 >= -->
+            <if test="reqDtSt != null and reqDtEd == null">
+                AND o.created_at <![CDATA[ >= ]]> #{reqDtSt}
+            </if>
+
+            <!-- 끝만 있으면 <= -->
+            <if test="reqDtSt == null and reqDtEd != null">
+                AND o.created_at <![CDATA[ <= ]]> #{reqDtEd}
+            </if>
+
+            <!-- 상태 리스트 있을 때만 IN 조건 -->
+            <if test="orderStatus != null and orderStatus.size > 0">
+                AND o.status IN
+                <foreach collection="orderStatus" item="st" open="(" separator="," close=")">
+                    #{st}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY o.created_at DESC
+
+        <!-- page & pageSize 둘 다 들어왔을 때만 페이징 -->
+        <if test="page != null and pageSize != null">
+            <bind name="offset" value="(page - 1) * pageSize"/>
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+</mapper>

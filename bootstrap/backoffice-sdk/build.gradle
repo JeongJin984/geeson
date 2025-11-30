@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(":api:backoffice-api")
+
+    implementation project(":infra:rdb:inventory-db")
+    implementation project(":infra:rdb:order-db")
+    implementation project(":infra:rdb:payment-db")
+    implementation project(":infra:rdb:product-db")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("mysql:mysql-connector-java:${property("mysqlVersion")}")
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="storage.rdb.payment.repository.adapter.mybatis.RefundMybatisRepository">
+    <resultMap id="RefundDtoMap" type="app.backoffice.dto.RefundDto">
+        <id     property="refundId"  column="refund_id"/>
+        <result property="paymentId"   column="payment_id"/>
+        <result property="refundStatus"    column="status"/>
+        <result property="refundAMount"    column="refund_amount"/>
+        <result property="reqDt"   column="request_date"/>
+    </resultMap>
+
+    <sql id="refundWhere">
+        <where>
+            <!-- 날짜 둘 다 있을 때: BETWEEN -->
+            <if test="requestDateSt != null and requestDateEnd != null">
+                AND r.request_date BETWEEN #{requestDateSt} AND #{requestDateEnd}
+            </if>
+
+            <!-- 시작만 있을 때: >= -->
+            <if test="requestDateSt != null and requestDateEnd == null">
+                AND r.request_date <![CDATA[ >= ]]> #{requestDateSt}
+            </if>
+
+            <!-- 끝만 있을 때: <= -->
+            <if test="requestDateSt == null and requestDateEnd != null">
+                AND r.request_date <![CDATA[ <= ]]> #{requestDateEnd}
+            </if>
+
+            <!-- 상태 리스트 있을 때만 IN 조건 -->
+            <if test="refundStatus != null and refundStatus.size > 0">
+                AND r.status IN
+                <foreach collection="refundStatus" item="st" open="(" separator="," close=")">
+                    #{st}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="countRefund" resultType="long">
+        SELECT COUNT(*)
+        FROM refunds r
+        <include refid="refundWhere"/>
+    </select>
+
+    <select id="getRefunds" resultMap="RefundDtoMap">
+        SELECT
+        r.refund_id     AS refund_id,
+        r.payment_id    AS payment_id,
+        r.status        AS status,
+        r.refund_amount AS refund_amount,
+        r.requested_at  AS request_date
+        FROM refunds r
+        <include refid="refundWhere"/>
+        ORDER BY r.requested_at DESC
+
+        <!-- page/pageSize 둘 다 있을 때만 페이징 -->
+        <if test="page != null and pageSize != null">
+            <bind name="offset" value="(page - 1) * pageSize"/>
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+</mapper>

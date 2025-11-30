@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {
-    "storage.rdb.order", "app.order", "domain.order", "domain.order.repository", "storage.rdb.order.repository.adapter",
+    "storage.rdb.order", "domain.order"
 })
 @EntityScan(basePackages = "domain.order.entity")
 public class OrderDbMain {

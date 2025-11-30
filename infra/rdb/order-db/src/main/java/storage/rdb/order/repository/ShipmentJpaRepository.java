@@ -5,7 +5,7 @@ import domain.order.repository.ShipmentRepository;
 import module.enums.ShipmentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.order.repository.adapter.SpringDataShipmentJpaRepository;
+import storage.rdb.order.repository.adapter.jpa.SpringDataShipmentJpaRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +33,7 @@ public class ShipmentJpaRepository implements ShipmentRepository {
 
     @Override
     public void updateStatus(Long shipmentId, ShipmentStatus status) {
+        quer
         ShipmentJpaEntity shipment = repository.findById(shipmentId)
             .orElseThrow(() -> new IllegalArgumentException("Shipment not found: " + shipmentId));
         shipment.updateStatus(status);

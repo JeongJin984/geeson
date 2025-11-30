@@ -4,7 +4,7 @@ import domain.product.domain.entity.ProductPriceJpaEntity;
 import domain.product.domain.repository.ProductPriceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.product.repository.adapter.SpringDataProductPriceJpaRepository;
+import storage.rdb.product.repository.adapter.jpa.SpringDataProductPriceJpaRepository;
 
 import java.util.Optional;
 

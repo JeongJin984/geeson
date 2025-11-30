@@ -4,7 +4,7 @@ import domain.payment.entity.PaymentGatewayJpaEntity;
 import domain.payment.repository.PaymentGatewayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.payment.repository.adapter.SpringDataPaymentGatewayJpaRepository;
+import storage.rdb.payment.repository.adapter.jpa.SpringDataPaymentGatewayJpaRepository;
 import support.constants.payment.VendorCode;
 
 import java.util.Optional;

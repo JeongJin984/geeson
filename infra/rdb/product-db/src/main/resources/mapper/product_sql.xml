@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="storage.rdb.product.repository.adapter.mybatis.ProductMybatisRepository">
+    <resultMap id="ProductDtoMap" type="app.backoffice.dto.ProductDto">
+        <id     property="productId"   column="product_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="sku"         column="sku"/>
+        <result property="stockAMount" column="stock_amount"/>
+    </resultMap>
+
+
+    <sql id="productWhere">
+        <where>
+            <!-- 활성 여부 필터 -->
+            <if test="active != null">
+                AND p.active = #{active}
+            </if>
+
+            <!-- 상태 리스트 필터 -->
+            <if test="status != null and status.size > 0">
+                AND p.status IN
+                <foreach collection="status" item="st" open="(" separator="," close=")">
+                    #{st}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="countProduct" resultType="long">
+        SELECT COUNT(*)
+        FROM product p
+        <include refid="productWhere"/>
+    </select>
+
+    <select id="getLowStockProducts" resultMap="ProductDtoMap">
+        SELECT
+        p.product_id    AS product_id,
+        p.product_name  AS product_name,
+        p.sku           AS sku,
+        p.stock_amount  AS stock_amount
+        FROM product p
+        <include refid="productWhere"/>
+        ORDER BY p.stock_amount ASC   <!-- 재고 적은 순 -->
+
+        <if test="page != null and pageSize != null">
+            <bind name="offset" value="(page - 1) * pageSize"/>
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+</mapper>

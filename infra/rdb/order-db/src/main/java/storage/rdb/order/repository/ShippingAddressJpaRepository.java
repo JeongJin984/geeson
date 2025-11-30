@@ -4,7 +4,7 @@ import domain.order.entity.ShippingAddressJpaEntity;
 import domain.order.repository.ShippingAddressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.order.repository.adapter.SpringDataShippingAddressJpaRepository;
+import storage.rdb.order.repository.adapter.jpa.SpringDataShippingAddressJpaRepository;
 
 import java.util.Optional;
 

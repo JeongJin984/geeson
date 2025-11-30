@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(":support:enums")
+    implementation project(":application:backoffice-app")
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}

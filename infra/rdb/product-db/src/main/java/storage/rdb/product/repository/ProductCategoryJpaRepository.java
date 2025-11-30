@@ -4,7 +4,7 @@ import domain.product.domain.entity.ProductCategoryJpaEntity;
 import domain.product.domain.repository.ProductCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.product.repository.adapter.SpringDataProductCategoryJpaRepository;
+import storage.rdb.product.repository.adapter.jpa.SpringDataProductCategoryJpaRepository;
 
 import java.util.List;
 import java.util.Optional;

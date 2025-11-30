@@ -3,7 +3,7 @@ package storage.rdb.product.repository;
 import domain.product.domain.repository.ProductOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.product.repository.adapter.SpringDataProductOptionJpaRepository;
+import storage.rdb.product.repository.adapter.jpa.SpringDataProductOptionJpaRepository;
 
 @Repository
 @RequiredArgsConstructor

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="storage.rdb.payment.repository.adapter.mybatis.PaymentMybatisRepository">
+    <resultMap id="PaymentDtoMap" type="app.backoffice.dto.PaymentDto">
+        <id     property="paymentId"   column="payment_id"/>
+        <result property="orderId"     column="order_id"/>
+        <result property="paymentStatus"      column="status"/>
+        <result property="amount"      column="amount"/>
+        <result property="reqDt"       column="created_at"/>
+    </resultMap>
+
+    <sql id="paymentWhere">
+        <where>
+            <!-- 날짜 둘 다 있으면 BETWEEN -->
+            <if test="reqDtSt != null and reqDtEd != null">
+                AND p.created_at BETWEEN #{reqDtSt} AND #{reqDtEd}
+            </if>
+
+            <!-- 시작만 있으면 >= -->
+            <if test="reqDtSt != null and reqDtEd == null">
+                AND p.created_at <![CDATA[ >= ]]> #{reqDtSt}
+            </if>
+
+            <!-- 끝만 있으면 <= -->
+            <if test="reqDtSt == null and reqDtEd != null">
+                AND p.created_at <![CDATA[ <= ]]> #{reqDtEd}
+            </if>
+
+            <!-- 상태 리스트 있을 때만 IN -->
+            <if test="paymentStatus != null and paymentStatus.size > 0">
+                AND p.status IN
+                <foreach collection="paymentStatus" item="st" open="(" separator="," close=")">
+                    #{st}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="sumPaymentAmount" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(p.amount), 0)
+        FROM payments p
+        <include refid="paymentWhere"/>
+    </select>
+
+    <select id="countPayment" resultType="long">
+        SELECT COUNT(*)
+        FROM payments p
+        <include refid="paymentWhere"/>
+    </select>
+
+    <select id="getPayments" resultMap="PaymentDtoMap">
+        SELECT
+        p.id          AS payment_id,
+        p.order_id    AS order_id,
+        p.status      AS status,
+        p.amount      AS amount,
+        p.created_at  AS created_at
+        FROM payments p
+        <include refid="paymentWhere"/>
+        ORDER BY p.created_at DESC
+
+        <!-- page/pageSize 둘 다 넘어왔을 때만 페이징 -->
+        <if test="page != null and pageSize != null">
+            <bind name="offset" value="(page - 1) * pageSize"/>
+            LIMIT #{pageSize} OFFSET #{offset}
+        </if>
+    </select>
+
+</mapper>

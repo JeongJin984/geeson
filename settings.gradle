@@ -16,6 +16,7 @@ include(
     'api:order-api',
     'api:payment-api',
     'api:product-api',
+    'api:backoffice-api'
 )
 
 include(
@@ -62,7 +63,13 @@ include(
     'application:order-app',
     'application:payment-app',
     'application:inventory-app',
-    'application:product-app'
+    'application:product-app',
+    'application:backoffice-app'
+)
+
+include(
+    'bootstrap',
+    'bootstrap:backoffice-sdk'
 )
 
 include(
@@ -77,7 +84,8 @@ include(
     'support:web-api',
     'support:masking',
     'support:uuid',
-    'support:constant'
+    'support:constant',
+    'support:enums'
 )
 
 include(

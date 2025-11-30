@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="storage.rdb.payment.repository.adapter.mybatis.SettlementMybatisRepository">
+
+    <sql id="settlementWhere">
+        <where>
+            <!-- 날짜 둘 다 있으면 BETWEEN -->
+            <if test="remitDtSt != null and remitDtEd != null">
+                AND s.remit_dt BETWEEN #{remitDtSt} AND #{remitDtEd}
+            </if>
+
+            <!-- 시작만 있으면 >= -->
+            <if test="remitDtSt != null and remitDtEd == null">
+                AND s.remit_dt <![CDATA[ >= ]]> #{remitDtSt}
+            </if>
+
+            <!-- 끝만 있으면 <= -->
+            <if test="remitDtSt == null and remitDtEd != null">
+                AND s.remit_dt <![CDATA[ <= ]]> #{remitDtEd}
+            </if>
+
+            <!-- 상태 리스트 있을 때만 IN 조건 -->
+            <if test="status != null and status.size > 0">
+                AND s.status IN
+                <foreach collection="status" item="st" open="(" separator="," close=")">
+                    #{st}
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="countSettlement" resultType="long">
+        SELECT COUNT(*)
+        FROM settlements s
+        <include refid="settlementWhere"/>
+    </select>
+</mapper>

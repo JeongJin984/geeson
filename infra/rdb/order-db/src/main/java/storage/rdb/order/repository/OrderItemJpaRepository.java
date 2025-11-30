@@ -4,7 +4,7 @@ import domain.order.entity.OrderItemJpaEntity;
 import domain.order.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.order.repository.adapter.SpringDataOrderItemJpaRepository;
+import storage.rdb.order.repository.adapter.jpa.SpringDataOrderItemJpaRepository;
 
 import java.util.List;
 

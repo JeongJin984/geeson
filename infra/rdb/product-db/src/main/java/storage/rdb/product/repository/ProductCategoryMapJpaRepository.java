@@ -4,7 +4,7 @@ import domain.product.domain.entity.ProductCategoryMapJpaEntity;
 import domain.product.domain.repository.ProductCategoryMapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.product.repository.adapter.SpringDataProductCategoryMapJpaRepository;
+import storage.rdb.product.repository.adapter.jpa.SpringDataProductCategoryMapJpaRepository;
 
 import java.util.List;
 

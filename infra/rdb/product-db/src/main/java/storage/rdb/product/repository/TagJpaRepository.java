@@ -3,7 +3,7 @@ package storage.rdb.product.repository;
 import domain.product.domain.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.product.repository.adapter.SpringDataTagJpaRepository;
+import storage.rdb.product.repository.adapter.jpa.SpringDataTagJpaRepository;
 
 @Repository
 @RequiredArgsConstructor

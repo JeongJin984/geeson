@@ -1,0 +1,12 @@
+mybatis:
+  type-aliases-package: app.backoffice
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.yml
+
+spring:
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://192.168.0.7:53306/order_db
+      username: admin
+      password: admin^^*

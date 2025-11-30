@@ -3,7 +3,7 @@ package storage.rdb.payment.repository;
 import domain.payment.repository.PaymentStatusHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import storage.rdb.payment.repository.adapter.SpringDataPaymentStatusHistoryJpaRepository;
+import storage.rdb.payment.repository.adapter.jpa.SpringDataPaymentStatusHistoryJpaRepository;
 
 @Repository
 @RequiredArgsConstructor
