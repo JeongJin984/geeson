@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 5
   kafka:
-    image: bitnami/kafka:4.0.0
+    image: soldevelo/kafka:4.0.0
     networks:
       - kafka-net
     container_name: kafka
